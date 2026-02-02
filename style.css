@@ -127,3 +127,46 @@ body {
 
 .tab-content { display: none; }
 .tab-content.active { display: block; }
+/* --- STYLES PAGE INFOS --- */
+.info-block {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    margin-bottom: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.info-title {
+    color: var(--accent-blue);
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.info-subtitle {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    opacity: 0.9;
+}
+
+.schedule-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.schedule-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.status-closed {
+    color: #ff453a;
+    font-weight: bold;
+}
