@@ -3,12 +3,11 @@
     --card-bg: rgba(28, 28, 30, 0.7);
     --accent-blue: #248bfe;
     --border: rgba(255, 255, 255, 0.1);
-    --text-dim: #a0a0a0; /* Ajout de la variable manquante */
+    --text-dim: #a0a0a0;
 }
 
 body {
     background-color: var(--bg-dark);
-    /* Remplace 'ton-logo.png' par ton vrai lien si tu en as un */
     background-image: url('ton-logo-en-filigrane.png');
     background-attachment: fixed;
     background-size: cover;
@@ -24,10 +23,22 @@ body {
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* --- MENU PRINCIPAL (HOME) --- */
+/* --- LOGOS & HEADERS --- */
 .main-header { text-align: center; margin-bottom: 20px; }
-.logo-placeholder { font-weight: bold; font-size: 20px; margin: 10px 0; }
 
+.main-logo-img {
+    width: 180px; 
+    margin: 10px auto;
+    display: block;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+}
+
+.mini-logo-header {
+    height: 30px;
+    margin-left: auto;
+}
+
+/* --- MENU PRINCIPAL (HOME) --- */
 .top-buttons { display: flex; gap: 10px; margin: 20px 0; }
 .top-buttons button {
     flex: 1; background: var(--card-bg); border: 1px solid var(--border);
@@ -44,150 +55,4 @@ body {
 
 .badge {
     position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6);
-    padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: bold;
-    border: 1px solid rgba(255,255,255,0.1); z-index: 2;
-}
-
-.product-info { padding: 12px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); }
-.product-info h3 { margin: 0; font-size: 14px; text-transform: uppercase; }
-.product-info p { margin: 4px 0 0; font-size: 11px; color: var(--text-dim); }
-
-/* --- NAVIGATION BASSE --- */
-.bottom-nav {
-    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-    width: 92%; background: rgba(30, 30, 30, 0.85); backdrop-filter: blur(20px);
-    border: 1px solid var(--border); border-radius: 40px;
-    display: flex; justify-content: space-around; padding: 8px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 1000;
-}
-.nav-item {
-    display: flex; flex-direction: column; align-items: center;
-    padding: 8px 15px; border-radius: 30px; opacity: 0.5; transition: 0.3s;
-}
-.nav-item.active { background: rgba(255,255,255,0.1); opacity: 1; }
-.nav-item i { font-size: 20px; margin-bottom: 4px; font-style: normal; }
-.nav-item span { font-size: 10px; font-weight: 500; }
-
-/* --- PANIER & ONGLETS --- */
-.tab-container { display: flex; gap: 10px; margin-bottom: 20px; }
-.tab-btn {
-    flex: 1; padding: 12px; border-radius: 12px; border: 1px solid var(--border);
-    background: var(--card-bg); color: white; font-weight: bold; cursor: pointer;
-}
-.tab-btn.active { background: var(--accent-blue); border-color: var(--accent-blue); }
-
-.cart-item {
-    display: flex; justify-content: space-between; align-items: center;
-    background: var(--card-bg); padding: 15px; margin-bottom: 10px;
-    border-radius: 15px; border: 1px solid var(--border); text-align: left;
-}
-.item-info { display: flex; flex-direction: column; }
-.item-name { font-weight: bold; font-size: 14px; }
-.item-price { color: var(--accent-blue); font-size: 12px; }
-.delete-btn { background: none; border: none; color: #ff453a; font-weight: bold; padding: 10px; }
-
-/* --- VUE DÉTAILLÉE PRODUIT --- */
-.product-detail-view {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #000; z-index: 2000; transform: translateX(100%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); overflow-y: auto;
-}
-.product-detail-view.active { transform: translateX(0); }
-
-.detail-header { padding: 15px; position: sticky; top: 0; z-index: 10; background: linear-gradient(to bottom, black, transparent); }
-.back-btn {
-/* Centrage des textes */
-.centered {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Grille de prix compacte (3 colonnes) */
-.price-grid-compact {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    padding-bottom: 20px;
-}
-
-.price-grid-compact button {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 10px 4px;
-    color: white;
-    font-size: 13px;
-    font-weight: 600;
-    transition: transform 0.1s;
-}
-
-.price-grid-compact button:active {
-    transform: scale(0.95);
-    background: var(--accent-blue);
-}
-
-/* Fix Vidéo */
-#detail-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: none;
-}
-
-.media-container {
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    border: 1px solid var(--border);
-}
-/* Logo du menu principal */
-.main-logo-img {
-    width: 180px; /* Ajuste selon la taille de ton logo */
-    margin: 10px auto;
-    display: block;
-    filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
-}
-
-/* Logo dans le header de retour */
-.mini-logo-header {
-    height: 30px;
-    margin-left: auto;
-}
-
-/* La Grande Carte Produit */
-.detail-card {
-    width: 92%;
-    margin: 10px auto 100px;
-    background: rgba(20, 20, 20, 0.95);
-    border-radius: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-    padding-bottom: 20px;
-}
-
-.centered {
-    text-align: left; /* Aligné à gauche comme ta capture */
-    padding: 20px;
-}
-
-/* Boutons de prix : Petits et en Grille */
-.price-grid-compact {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* 2 colonnes comme ta capture */
-    gap: 10px;
-    padding: 0 20px;
-}
-
-.price-grid-compact button {
-    background: #1c1c1e;
-    border: 1px solid #2c2c2e;
-    border-radius: 18px;
-    padding: 14px;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-}
+    padding: 4px 8px; border-radius:
