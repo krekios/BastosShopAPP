@@ -42,33 +42,6 @@
             <button class="btn-primary" onclick="goToStep2()" style="margin-top:20px;">Choisir la livraison ➔</button>
         </div>
 
-        <div id="step-2-delivery" style="display:none;">
-            <button class="back-link" onclick="goToStep1()">❮ Retour au panier</button>
-            <div class="delivery-options">
-                <div class="option-toggle">
-                    <label class="radio-card">
-                        <input type="radio" name="delivery-mode" value="meetup" checked onclick="toggleDeliveryFields()">
-                        <div class="card-content">📍 Meet-up</div>
-                    </label>
-                    <label class="radio-card">
-                        <input type="radio" name="delivery-mode" value="livraison" onclick="toggleDeliveryFields()">
-                        <div class="card-content">🚚 Livraison</div>
-                    </label>
-                </div>
-                <div id="meetup-fields">
-                    <select id="meetup-location">
-                        <option>Poitiers Centre</option>
-                        <option>Alentours (86)</option>
-                    </select>
-                </div>
-                <div id="livraison-fields" style="display:none;">
-                    <textarea id="delivery-address" placeholder="Ton adresse complète..."></textarea>
-                </div>
-                <button class="btn-success" onclick="finaliserCommande()" style="margin-top:20px;">Confirmer la commande 🚀</button>
-            </div>
-        </div>
-    </div>
-
     <div id="page-avis" class="page">
         <h2 style="text-align:center;">Avis Clients</h2>
         <div class="info-block">
