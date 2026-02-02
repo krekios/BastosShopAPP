@@ -1,42 +1,26 @@
 let cart = [];
-let currentProduct = {};
+const tele = window.Telegram.WebApp;
+tele.expand();
 
-// Navigation entre les pages
-function showPage(pageId, element) {
-    // Masquer toutes les pages
-    document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-    // Afficher la page sélectionnée
-    document.getElementById(pageId).style.display = 'block';
+function showPage(pageId, navEl) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const targetPage = document.getElementById(pageId);
+    if(targetPage) targetPage.classList.add('active');
     
-    // Gérer l'état actif dans la nav
-    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-    element.classList.add('active');
-    
-    window.Telegram?.WebApp?.HapticFeedback.selectionChanged();
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    navEl.classList.add('active');
 }
 
-// Ouvrir un produit
-function openProduct(name, farm, tag, mediaUrl, desc, isVideo = false) {
-    currentProduct = { name, farm };
+function openProduct(name, farm, tag, video, desc, price) {
     document.getElementById('detail-title').innerText = name;
     document.getElementById('detail-farm').innerText = farm;
+    document.getElementById('detail-tag').innerText = tag;
+    document.getElementById('detail-desc').innerText = desc;
+    document.getElementById('detail-video').src = video;
     
-    const v = document.getElementById('detail-video');
-    const i = document.getElementById('detail-img');
-    
-    if(isVideo) {
-        v.style.display = "block"; i.style.display = "none"; v.src = mediaUrl; v.play();
-    } else {
-        v.style.display = "none"; i.style.display = "block"; i.src = mediaUrl;
-    }
-
     const grid = document.getElementById('price-grid-dynamic');
-    const tarifs = [{p:'2g',v:30},{p:'5g',v:60},{p:'10g',v:110}];
-    grid.innerHTML = "";
-    tarifs.forEach(t => {
-        grid.innerHTML += `<button onclick="addToCart('${t.p}', ${t.v})">${t.v}€ - ${t.p}</button>`;
-    });
-
+    grid.innerHTML = `<button onclick="addToCart('${name}', ${price})">AJOUTER : ${price}€</button>`;
+    
     document.getElementById('product-detail-page').classList.add('active');
 }
 
@@ -44,26 +28,35 @@ function closeProduct() {
     document.getElementById('product-detail-page').classList.remove('active');
 }
 
-// Panier
-function addToCart(poids, prix) {
-    cart.push({ name: `${currentProduct.name} (${poids})`, price: prix });
+function addToCart(name, price) {
+    cart.push({ name, price });
     updateCartUI();
     closeProduct();
-    window.Telegram?.WebApp?.HapticFeedback.notificationOccurred('success');
+    tele.HapticFeedback.notificationOccurred('success');
 }
 
 function updateCartUI() {
     const list = document.getElementById('cart-items-list');
+    const footer = document.getElementById('cart-footer');
+    let total = 0;
+
     if (cart.length === 0) {
-        list.innerHTML = '<p style="text-align:center; padding:50px; opacity:0.5;">Panier vide 🐥</p>';
+        list.innerHTML = '<div style="text-align:center; padding:50px; opacity:0.5;">Panier vide 🐥</div>';
+        footer.style.display = 'none';
         return;
     }
-    list.innerHTML = cart.map((item, index) => `
-        <div class="info-block" style="display:flex; justify-content:space-between; align-items:center;">
-            <div><b>${item.name}</b><br>${item.price}€</div>
-            <button onclick="removeItem(${index})" style="color:red; background:none; border:none;">Supprimer</button>
-        </div>
-    `).join('');
+
+    list.innerHTML = '';
+    cart.forEach((item, index) => {
+        total += item.price;
+        list.innerHTML += `
+            <div style="background:rgba(255,255,255,0.05); margin-bottom:10px; padding:15px; border-radius:15px; display:flex; justify-content:space-between; align-items:center;">
+                <div style="text-align: left;"><b>${item.name}</b><br><small>${item.price}€</small></div>
+                <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff453a;">Supprimer</button>
+            </div>`;
+    });
+    footer.style.display = 'block';
+    footer.innerHTML = `<button class="btn-primary" style="width:100%; background:#248bfe; color:white; border:none; padding:15px; border-radius:15px;">Total: ${total}€</button>`;
 }
 
 function removeItem(index) {
@@ -71,9 +64,21 @@ function removeItem(index) {
     updateCartUI();
 }
 
-// Tunnel de commande
+function switchTab(tabName) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    
+    if (tabName === 'panier') {
+        document.getElementById('btn-tab-panier').classList.add('active');
+        document.getElementById('content-panier').classList.add('active');
+    } else {
+        document.getElementById('btn-tab-commandes').classList.add('active');
+        document.getElementById('content-commandes').classList.add('active');
+    }
+}
+
 function goToStep2() {
-    if(cart.length === 0) return window.Telegram?.WebApp?.showAlert("Ton panier est vide");
+    if(cart.length === 0) return alert("Ton panier est vide !");
     document.getElementById('step-1-cart').style.display = 'none';
     document.getElementById('step-2-delivery').style.display = 'block';
 }
@@ -91,32 +96,37 @@ function toggleDeliveryFields() {
 
 function finaliserCommande() {
     const mode = document.querySelector('input[name="delivery-mode"]:checked').value;
-    const info = mode === 'meetup' ? document.getElementById('meetup-location').value : document.getElementById('delivery-address').value;
+    const info = (mode === 'meetup') ? document.getElementById('meetup-location').value : document.getElementById('delivery-address').value;
     
-    if(mode === 'livraison' && info.length < 5) return window.Telegram?.WebApp?.showAlert("Précise l'adresse !");
+    let recap = "";
+    let total = 0;
+    cart.forEach(item => {
+        recap += `- ${item.name} : ${item.price}€\n`;
+        total += item.price;
+    });
 
-    const total = cart.reduce((a, b) => a + b.price, 0);
     const data = {
-        commande: cart.map(i => i.name).join(', '),
+        recapitulatif: recap,
         total: total + "€",
         mode: mode,
-        infos: info
+        lieu: info
     };
 
-    window.Telegram.WebApp.showConfirm(`Confirmer la commande de ${total}€ ?`, (ok) => {
-        if(ok) window.Telegram.WebApp.sendData(JSON.stringify(data));
+    tele.showConfirm("Confirmer la commande ?", (confirmed) => {
+        if(confirmed) {
+            tele.sendData(JSON.stringify(data));
+        }
     });
 }
 
 function filterProducts() {
-    const farm = document.getElementById('farm-filter').value;
-    const cat = document.getElementById('category-filter').value;
-    document.querySelectorAll('.product-card').forEach(p => {
-        const farmMatch = farm === 'all' || p.dataset.farm === farm;
-        const catMatch = cat === 'all' || p.dataset.category === cat;
-        p.style.display = (farmMatch && catMatch) ? "block" : "none";
+    const farmValue = document.getElementById('farm-filter').value;
+    const catValue = document.getElementById('category-filter').value;
+    const products = document.querySelectorAll('.product-card');
+
+    products.forEach(product => {
+        const farmMatch = (farmValue === 'all' || product.dataset.farm === farmValue);
+        const catMatch = (catValue === 'all' || product.dataset.category === catValue);
+        product.style.display = (farmMatch && catMatch) ? "block" : "none";
     });
 }
-
-// Initialisation Telegram
-window.Telegram.WebApp.expand();
