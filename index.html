@@ -39,4 +39,91 @@
         
         <div class="detail-card">
             <div class="media-container">
-                <div
+                <div class="detail-badge" id="detail-tag">FROZEN SIFT 🇲🇦</div>
+                <video id="detail-video" autoplay loop muted playsinline></video>
+                <img id="detail-img" src="" alt="Produit">
+            </div>
+
+            <div class="text-section centered">
+                <h2 id="detail-title">---</h2>
+                <p id="detail-farm" class="farm-name">---</p>
+                <p id="detail-desc" class="description">---</p>
+            </div>
+
+            <div class="separator-line"></div>
+
+            <div class="cart-section">
+                <div class="cart-title-row">
+                    <span>AJOUTER AU PANIER</span>
+                    <span class="stock-status" id="detail-stock">Stock: 100G</span>
+                </div>
+                
+                <div id="price-grid-dynamic" class="price-grid-compact"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-panier" class="page">
+        <h1 class="page-title">Mon Panier</h1>
+        <div class="tab-container">
+            <button class="tab-btn active" id="btn-tab-panier" onclick="switchTab('panier')">🛒 Articles</button>
+            <button class="tab-btn" id="btn-tab-commandes" onclick="switchTab('commandes')">📋 Historique</button>
+        </div>
+
+        <div id="content-panier" class="tab-content active">
+            <div id="cart-items-list">
+                <div class="empty-state">
+                    <div class="duck-icon">🐥</div>
+                    <p>Votre panier est vide</p>
+                </div>
+            </div>
+            
+            <div id="cart-footer" style="display:none; padding: 20px;">
+                </div>
+        </div>
+
+        <div id="content-commandes" class="tab-content">
+            <div class="empty-state">
+                <p style="opacity: 0.5;">Aucune commande en cours.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-avis" class="page">
+        <h1 class="page-title">Avis Clients</h1>
+        <div class="review-list">
+            <div class="review-card">
+                <p><strong>Victor Osk</strong> - il y a 2 semaines</p>
+                <p>Trop cherry ✅ Qualité incroyable.</p>
+            </div>
+            </div>
+        <button class="btn-avis" style="margin-top: 20px; width: 100%; padding: 15px; border-radius: 12px; border: 1px solid var(--border); background: var(--card-bg); color: white;">📝 Laisser un avis</button>
+    </div>
+
+    <div id="page-infos" class="page">
+        <h1 class="page-title">Informations</h1>
+        <div class="info-block" style="background: var(--card-bg); padding: 20px; border-radius: 20px; border: 1px solid var(--border);">
+            <h3 style="color: var(--accent-blue);">📦 Modes d'envoi</h3>
+            <p style="margin: 10px 0;">• <strong>Mondial Relay</strong> : 10€ (4-5 jours)</p>
+            <p style="margin: 10px 0;">• <strong>La Poste</strong> : 10€ (48h)</p>
+            <div class="separator-line" style="margin: 15px 0;"></div>
+            <p style="font-size: 12px; opacity: 0.6;">Les commandes sont expédiées sous 24h après validation du paiement.</p>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="showPage('page-menu', this)"><i>🏠</i><span>Menu</span></div>
+        <div class="nav-item" onclick="showPage('page-panier', this)"><i>🛒</i><span>Panier</span></div>
+        <div class="nav-item" onclick="showPage('page-avis', this)"><i>💬</i><span>Avis</span></div>
+        <div class="nav-item" onclick="showPage('page-infos', this)"><i>ℹ️</i><span>Infos</span></div>
+    </nav>
+
+    <script src="script.js"></script>
+    <script>
+        // Initialisation de la Mini App Telegram
+        const tele = window.Telegram.WebApp;
+        tele.expand(); // Ouvre l'app en plein écran immédiatement
+        tele.ready();
+    </script>
+</body>
+</html>
