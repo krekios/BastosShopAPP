@@ -12,77 +12,75 @@
     <div id="page-menu" class="page active">
         <header class="main-header">
             <img src="IMG_1178.PNG" class="main-logo-img">
+            
             <div class="filter-container">
                 <select id="farm-filter" onchange="filterProducts()">
                     <option value="all">Toutes les Farms</option>
                     <option value="KGF">KGF</option>
                 </select>
+
                 <select id="category-filter" onchange="filterProducts()">
-                    <option value="all">Catégories</option>
+                    <option value="all">Toutes les Catégories</option>
                     <option value="hash">Hash</option>
+                    <option value="tabac">Tabac</option>
                     <option value="weed">Weed</option>
                 </select>
             </div>
         </header>
-
+      
         <div class="product-grid">
-            <div class="product-card" data-farm="KGF" data-category="hash" onclick="openProduct('Trap Grapez 🍇', 'KGF 🦊', 'FROZEN SIFT 90u', 'https://ton-image.jpg', 'Qualité supérieure.', false)">
-                <div class="badge">90u 🇲🇦</div>
-                <img src="https://ton-image.jpg">
-                <div class="product-info"><h3>Trap Grapez 🍇</h3><p>KGF 🦊</p></div>
+            <div class="product-card" data-farm="KGF" data-category="hash" onclick="openProduct('Trap Grapez 🍇', 'KGF 🦊', 'FROZEN SIFT 90u 🇲🇦', 'https://ton-image-produit.jpg', 'Qualité supérieure 90u.', false)">
+                <div class="badge">FROZEN SIFT 90u 🇲🇦</div>
+                <img src="https://ton-image-produit.jpg" alt="Trap Grapez"> 
+                <div class="product-info">
+                    <h3>Trap Grapez 🍇</h3>
+                    <p>KGF 🦊 | <b>90u</b></p> </div>
             </div>
-        </div>
-    </div>
-
-    <div id="page-panier" class="page">
-        <h2 style="text-align:center;">Mon Panier</h2>
-        
-        <div id="step-1-cart">
-            <div id="cart-items-list"></div>
-            <button class="btn-primary" onclick="goToStep2()" style="margin-top:20px;">Choisir la livraison ➔</button>
-        </div>
-
-    <div id="page-avis" class="page">
-        <h2 style="text-align:center;">Avis Clients</h2>
-        <div class="info-block">
-            <p style="text-align:center; opacity:0.6;">Les avis arrivent bientôt...</p>
-        </div>
-    </div>
-
-    <div id="page-infos" class="page">
-        <h2 style="text-align:center;">Informations</h2>
-        <div class="info-block">
-            <h3 class="info-title">Horaires</h3>
-            <p>Lundi - Samedi : 11h / 22h</p>
-            <p>Dimanche : Fermé</p>
         </div>
     </div>
 
     <div id="product-detail-page" class="product-detail-view">
         <div class="detail-header">
             <button class="back-btn" onclick="closeProduct()">❮ Retour</button>
-            <img src="IMG_1178.PNG" class="mini-logo-header">
+            <img src="IMG_1178.PNG" alt="Logo" class="mini-logo-header">
         </div>
+        
         <div class="detail-card">
             <div class="media-container">
-                <video id="detail-video" loop muted playsinline></video>
-                <img id="detail-img" src="">
+                <div class="detail-badge" id="detail-tag">FROZEN SIFT 90u 🇲🇦</div>
+                <video id="detail-video" autoplay loop muted playsinline></video>
+                <img id="detail-img" src="" alt="Produit">
             </div>
-            <div class="centered">
-                <h2 id="detail-title"></h2>
-                <p id="detail-farm" class="farm-name"></p>
+
+            <div class="text-section centered">
+                <h2 id="detail-title">---</h2>
+                <p id="detail-farm" class="farm-name">---</p>
+                <p id="detail-desc" class="description">---</p>
+            </div>
+
+            <div class="separator-line"></div>
+
+            <div class="cart-section">
+                <div class="cart-title-row">
+                    <span style="padding-left: 20px; font-weight: bold; font-size: 12px; opacity: 0.8;">AJOUTER AU PANIER</span>
+                </div>
                 <div id="price-grid-dynamic" class="price-grid-compact"></div>
             </div>
         </div>
     </div>
 
-    <nav class="bottom-nav-glass">
-        <div class="nav-item active" onclick="showPage('page-menu', this)"><span>Menu</span></div>
-        <div class="nav-item" onclick="showPage('page-panier', this)"><span>Panier</span></div>
-        <div class="nav-item" onclick="showPage('page-avis', this)"><span>Avis</span></div>
-        <div class="nav-item" onclick="showPage('page-infos', this)"><span>Infos</span></div>
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="showPage('page-menu', this)"><i>🏠</i><span>Menu</span></div>
+        <div class="nav-item" onclick="showPage('page-panier', this)"><i>🛒</i><span>Panier</span></div>
+        <div class="nav-item" onclick="showPage('page-avis', this)"><i>💬</i><span>Avis</span></div>
+        <div class="nav-item" onclick="showPage('page-infos', this)"><i>ℹ️</i><span>Infos</span></div>
     </nav>
 
     <script src="script.js"></script>
+    <script>
+        const tele = window.Telegram.WebApp;
+        tele.expand();
+        tele.ready();
+    </script>
 </body>
 </html>
