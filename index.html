@@ -93,16 +93,31 @@
         <button class="btn-avis" style="margin-top: 20px; width: 100%; padding: 15px; border-radius: 12px; border: 1px solid var(--border); background: var(--card-bg); color: white;">📝 Laisser un avis</button>
     </div>
 
-    <div id="page-infos" class="page">
-        <h1 class="page-title">Informations</h1>
-        <div class="info-block" style="background: var(--card-bg); padding: 20px; border-radius: 20px; border: 1px solid var(--border);">
-            <h3 style="color: var(--accent-blue);">📦 Modes d'envoi</h3>
-            <p style="margin: 10px 0;">• <strong>Mondial Relay</strong> : 10€ (4-5 jours)</p>
-            <p style="margin: 10px 0;">• <strong>La Poste</strong> : 10€ (48h)</p>
-            <div class="separator-line" style="margin: 15px 0;"></div>
-            <p style="font-size: 12px; opacity: 0.6;">Les commandes sont expédiées sous 24h après validation du paiement.</p>
+   <div id="page-infos" class="page">
+    <h1 class="page-title">Informations</h1>
+
+    <div class="info-block">
+        <h3 class="info-title">📍 Meet-up</h3>
+        <p class="info-subtitle">Horaires d'ouverture :</p>
+        <div class="schedule-grid">
+            <div class="schedule-row"><span>Lundi - Vendredi</span> <span>11h00 - 22h00</span></div>
+            <div class="schedule-row"><span>Samedi</span> <span>12h00 - 23h00</span></div>
+            <div class="schedule-row"><span>Dimanche</span> <span class="status-closed">Fermé</span></div>
         </div>
     </div>
+
+    <div class="info-block">
+        <h3 class="info-title">🚚 Livraison</h3>
+        <p style="margin: 10px 0; line-height: 1.5;">
+            Livraison disponible dans <strong>tout le 86</strong>.<br>
+            <span style="color: var(--text-dim); font-size: 13px;">⚠️ Le prix varie en fonction de la distance.</span>
+        </p>
+        <div class="separator-line" style="margin: 15px 0 10px 0;"></div>
+        <p style="font-size: 11px; opacity: 0.6; text-align: center;">
+            Contactez le support pour une estimation précise.
+        </p>
+    </div>
+</div>
 
     <nav class="bottom-nav">
         <div class="nav-item active" onclick="showPage('page-menu', this)"><i>🏠</i><span>Menu</span></div>
