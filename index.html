@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ma Boutique</title>
     <link rel="stylesheet" href="style.css">
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
 
@@ -18,89 +18,82 @@
             </div>
         </header>
         
-     <div class="product-grid">
-  <div class="product-card" onclick="openProduct('Trap Grapez 🍇', 'KGF 🦊', 'FROZEN 🇲🇦', 'https://filebin.net/13jtpf94uqhipi0k/grapez.mp4.MOV', 'REGULAR + SEASON 2026', true)">
-        <div class="badge">FROZEN 🇲🇦</div>
-        <img src="https://ton-image.jpg" alt="Produit">
-        <div class="product-info">
-            <h3>Trap Grapez 🍇</h3>
-            <p>KGF 🦊</p>
-        </div>
-    </div>
-</div>
-
-<div id="product-detail-page" class="product-detail-view">
-    <div class="detail-header">
-        <button class="back-btn" onclick="closeProduct()">❮ Retour</button>
-    </div>
-    
-    <div class="detail-content-wrapper">
-        <div class="media-container">
-            <div class="detail-badge" id="detail-tag">FROZEN 🇲🇦</div>
-            <video id="detail-video" autoplay loop muted playsinline>
-                <source src="" type="video/mp4">
-            </video>
-            <img id="detail-img" src="" alt="Produit">
-        </div>
-
-        <div class="text-section">
-            <h2 id="detail-title">Trap Grapez 🍇</h2>
-            <p id="detail-farm" class="farm-name">KGF 🦊</p>
-            <p id="detail-desc" class="description">REGULAR + SEASON 2026</p>
-        </div>
-
-        <div class="separator-line"></div>
-
-        <div class="cart-section">
-            <div class="cart-title-row">
-                <span>AJOUTER AU PANIER</span>
-                <span class="stock-status">Stock: Disponible</span>
-            </div>
-            
-            <div id="price-grid-dynamic" class="price-grid">
-                <button onclick="addToCartDetailed('1g', 20)">20€ <span>1g</span></button>                
-                <button onclick="addToCartDetailed('2g', 30)">30€ <span>2g</span></button>
-                <button onclick="addToCartDetailed('5g', 60)">60€ <span>5g</span></button>
-                <button onclick="addToCartDetailed('10g', 110)">110€ <span>10g</span></button>
-                <button onclick="addToCartDetailed('25g', 220)">220€ <span>25g</span></button>  
+        <div class="product-grid">
+            <div class="product-card" onclick="openProduct('Trap Grapez 🍇', 'KGF 🦊', 'FROZEN 🇲🇦', 'https://filebin.net/13jtpf94uqhipi0k/grapez.mp4.MOV', 'REGULAR + SEASON 2026', true)">
+                <div class="badge">FROZEN 🇲🇦</div>
+                <img src="https://ton-image.jpg" alt="Produit"> 
+                <div class="product-info">
+                    <h3>Trap Grapez 🍇</h3>
+                    <p>KGF 🦊</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <div id="product-detail-page" class="product-detail-view">
+        <div class="detail-header">
+            <button class="back-btn" onclick="closeProduct()">❮ Retour</button>
+        </div>
+        
+        <div class="detail-content-wrapper">
+            <div class="media-container">
+                <div class="detail-badge" id="detail-tag">FROZEN 🇲🇦</div>
+                <video id="detail-video" autoplay loop muted playsinline>
+                    <source src="" type="video/mp4">
+                </video>
+                <img id="detail-img" src="" alt="Produit">
+            </div>
+
+            <div class="text-section">
+                <h2 id="detail-title">Trap Grapez 🍇</h2>
+                <p id="detail-farm" class="farm-name">KGF 🦊</p>
+                <p id="detail-desc" class="description">REGULAR + SEASON 2026</p>
+            </div>
+
+            <div class="separator-line"></div>
+
+            <div class="cart-section">
+                <div class="cart-title-row">
+                    <span>AJOUTER AU PANIER</span>
+                    <span class="stock-status">Stock: Disponible</span>
+                </div>
+                
+                <div id="price-grid-dynamic" class="price-grid">
+                    <button onclick="addToCartDetailed('1g', 20)">20€ <span>1g</span></button>
+                    <button onclick="addToCartDetailed('2g', 30)">30€ <span>2g</span></button>
+                    <button onclick="addToCartDetailed('5g', 60)">60€ <span>5g</span></button>
+                    <button onclick="addToCartDetailed('10g', 110)">110€ <span>10g</span></button>
+                    <button onclick="addToCartDetailed('25g', 220)">220€ <span>25g</span></button>
+                </div>
+            </div>
         </div>
     </div>
 
-   <div id="page-panier" class="page">
-    <h1 class="page-title">Panier</h1>
-    
-    <div class="tab-container">
-        <button class="tab-btn active" id="btn-tab-panier" onclick="switchTab('panier')">
-            🛒 Panier
-        </button>
-        <button class="tab-btn" id="btn-tab-commandes" onclick="switchTab('commandes')">
-            📋 Commandes
-        </button>
-    </div>
+    <div id="page-panier" class="page">
+        <h1 class="page-title">Panier</h1>
+        <div class="tab-container">
+            <button class="tab-btn active" id="btn-tab-panier" onclick="switchTab('panier')">🛒 Panier</button>
+            <button class="tab-btn" id="btn-tab-commandes" onclick="switchTab('commandes')">📋 Commandes</button>
+        </div>
 
-    <div id="content-panier" class="tab-content active">
-    <div id="cart-items-list">
-        <div class="empty-state">
-            <div class="duck-icon">🐥</div>
-            <p>Votre panier est vide</p>
+        <div id="content-panier" class="tab-content active">
+            <div id="cart-items-list">
+                <div class="empty-state">
+                    <div class="duck-icon">🐥</div>
+                    <p>Votre panier est vide</p>
+                </div>
+            </div>
+            <div id="cart-footer" style="display:none; padding: 20px;">
+                <button class="tab-btn active" style="width:100%" onclick="validerCommande()">Valider la commande</button>
+            </div>
+        </div>
+
+        <div id="content-commandes" class="tab-content">
+            <div class="empty-state">
+                <p style="opacity: 0.5;">Aucune commande effectuée.</p>
+            </div>
         </div>
     </div>
-    <div id="cart-footer" style="display:none; padding: 20px;">
-        <hr border="1" style="opacity:0.1">
-        <button class="tab-btn active" style="width:100%" onclick="validerCommande()">Valider la commande</button>
-    </div>
-</div>
-
-    <div id="content-commandes" class="tab-content">
-        <div class="empty-state">
-            <p style="opacity: 0.5;">Aucune commande effectuée pour le moment.</p>
-        </div>
-    </div>
-</div>
 
     <div id="page-avis" class="page">
         <h1 class="page-title">Avis</h1>
@@ -123,18 +116,10 @@
     </div>
 
     <nav class="bottom-nav">
-        <div class="nav-item active" onclick="showPage('page-menu', this)">
-            <i>🏠</i><span>Menu</span>
-        </div>
-        <div class="nav-item" onclick="showPage('page-panier', this)">
-            <i>🛒</i><span>Panier</span>
-        </div>
-        <div class="nav-item" onclick="showPage('page-avis', this)">
-            <i>💬</i><span>Avis</span>
-        </div>
-        <div class="nav-item" onclick="showPage('page-infos', this)">
-            <i>ℹ️</i><span>Infos</span>
-        </div>
+        <div class="nav-item active" onclick="showPage('page-menu', this)"><i>🏠</i><span>Menu</span></div>
+        <div class="nav-item" onclick="showPage('page-panier', this)"><i>🛒</i><span>Panier</span></div>
+        <div class="nav-item" onclick="showPage('page-avis', this)"><i>💬</i><span>Avis</span></div>
+        <div class="nav-item" onclick="showPage('page-infos', this)"><i>ℹ️</i><span>Infos</span></div>
     </nav>
 
     <script src="script.js"></script>
