@@ -25,3 +25,25 @@ function showPage(pageId, element) {
         window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
     }
 }
+function switchTab(tabName) {
+    // 1. Gérer les boutons
+    document.getElementById('btn-tab-panier').classList.remove('active');
+    document.getElementById('btn-tab-commandes').classList.remove('active');
+    
+    // 2. Gérer les contenus
+    document.getElementById('content-panier').classList.remove('active');
+    document.getElementById('content-commandes').classList.remove('active');
+
+    if (tabName === 'panier') {
+        document.getElementById('btn-tab-panier').classList.add('active');
+        document.getElementById('content-panier').classList.add('active');
+    } else {
+        document.getElementById('btn-tab-commandes').classList.add('active');
+        document.getElementById('content-commandes').classList.add('active');
+    }
+
+    // Petit retour haptique pour le feeling "App"
+    if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.HapticFeedback.selectionChanged();
+    }
+}
