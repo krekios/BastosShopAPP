@@ -12,7 +12,7 @@
     <div id="page-menu" class="page active">
         <header class="main-header">
             <img src="IMG_1178.PNG" class="main-logo-img">
-            <div class="filter-container" style="display:flex; gap:10px; margin-top:10px;">
+            <div class="filter-container">
                 <select id="farm-filter" onchange="filterProducts()">
                     <option value="all">Toutes les Farms</option>
                     <option value="KGF">KGF</option>
@@ -20,14 +20,16 @@
                 <select id="category-filter" onchange="filterProducts()">
                     <option value="all">Toutes les Catégories</option>
                     <option value="hash">Hash</option>
+                    <option value="tabac">Tabac</option>
                     <option value="weed">Weed</option>
                 </select>
             </div>
         </header>
+      
         <div class="product-grid">
-            <div class="product-card" data-farm="KGF" data-category="hash" onclick="openProduct('Trap Grapez 🍇', 'KGF 🦊', 'FROZEN SIFT 🇲🇦', 'https://i.imgur.com/MbC46Y0.mp4', '90u.', 120)">
-                <div class="badge">FROZEN SIFT</div>
-                <img src="https://i.imgur.com/vHq0L5N.jpeg">
+            <div class="product-card" data-farm="KGF" data-category="hash" onclick="openProduct('Trap Grapez 🍇', 'KGF 🦊', 'FROZEN SIFT 🇲🇦', 'https://i.imgur.com/MbC46Y0.mp4', '90u.', false)">
+                <div class="badge">FROZEN SIFT 🇲🇦</div>
+                <img src="https://ton-image-produit.jpg" alt="Trap Grapez"> 
                 <div class="product-info">
                     <h3>Trap Grapez 🍇</h3>
                     <p>KGF 🦊 | <b>90u</b></p>
@@ -36,100 +38,132 @@
         </div>
     </div>
 
+    <div id="product-detail-page" class="product-detail-view">
+        <div class="detail-header">
+            <button class="back-btn" onclick="closeProduct()">❮ Retour</button>
+            <img src="IMG_1178.PNG" alt="Logo" class="mini-logo-header">
+        </div>
+        <div class="detail-card">
+            <div class="media-container">
+                <div class="detail-badge" id="detail-tag">FROZEN SIFT 🇲🇦</div>
+                <video id="detail-video" autoplay loop muted playsinline></video>
+                <img id="detail-img" src="" alt="Produit">
+            </div>
+            <div class="text-section centered">
+                <h2 id="detail-title">---</h2>
+                <p id="detail-farm" class="farm-name">---</p>
+                <p id="detail-desc" class="description">---</p>
+            </div>
+            <div class="separator-line"></div>
+            <div class="cart-section">
+                <div class="cart-title-row">
+                    <span style="padding-left: 20px; font-weight: bold; font-size: 12px; opacity: 0.8;">AJOUTER AU PANIER</span>
+                </div>
+                <div id="price-grid-dynamic" class="price-grid-compact"></div>
+            </div>
+        </div>
+    </div>
+
     <div id="page-panier" class="page">
-        <div id="step-1-cart">
-            <h2 style="text-align:center;">Mon Panier</h2>
-            <div id="cart-items-list"></div>
-            <div id="cart-footer" style="display:none; margin-top:20px;">
-                <button class="btn-primary" onclick="goToStep2()">Valider mon panier ➔</button>
+        <h1 class="page-title">Mon Panier</h1>
+        
+        <div id="content-panier" class="tab-content active">
+            <div id="step-1-cart">
+                <div id="cart-items-list">
+                    <div class="empty-state">
+                        <div class="duck-icon">🐥</div>
+                        <p>Votre panier est vide</p>
+                    </div>
+                </div>
+                <div id="cart-footer-btn" style="padding: 20px;">
+                    <button class="btn-primary" onclick="goToStep2()">Valider mon panier ➔</button>
+                </div>
+            </div>
+
+            <div id="step-2-delivery" style="display: none; padding: 15px;">
+                <button class="back-link" onclick="goToStep1()" style="background:none; border:none; color:#888; margin-bottom:15px;">❮ Retour au panier</button>
+                
+                <div class="delivery-options" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);">
+                    <h3 style="margin-bottom: 15px; font-size: 16px;">Mode de réception</h3>
+                    
+                    <div class="option-toggle" style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <button id="btn-meetup" onclick="selectMode('meetup')" style="flex:1; padding:12px; border-radius:10px; border:1px solid #fff; background:#222; color:#fff;">📍 Meet-up</button>
+                        <button id="btn-livraison" onclick="selectMode('livraison')" style="flex:1; padding:12px; border-radius:10px; border:1px solid #444; background:#222; color:#fff;">🚚 Livraison</button>
+                    </div>
+
+                    <div id="meetup-fields">
+                        <p style="font-size: 12px; margin-bottom: 5px; opacity: 0.7;">Lieu de rendez-vous :</p>
+                        <select id="meetup-location" style="width:100%; padding:10px; border-radius:8px; background:#111; color:#fff; border:1px solid #333;">
+                            <option value="Poitiers Centre">Poitiers Centre</option>
+                            <option value="Alentours (86)">Alentours (86)</option>
+                        </select>
+                    </div>
+
+                    <div id="livraison-fields" style="display:none;">
+                        <p style="font-size: 12px; margin-bottom: 5px; opacity: 0.7;">Adresse précise :</p>
+                        <textarea id="delivery-address" placeholder="Rue, Code Postal, Ville..." style="width:100%; height:80px; padding:10px; border-radius:8px; background:#111; color:#fff; border:1px solid #333; resize:none;"></textarea>
+                    </div>
+
+                    <button class="btn-success" onclick="finaliserCommande()" style="margin-top: 20px; width: 100%; padding:15px; border-radius:12px; background:#2ecc71; color:#fff; font-weight:bold; border:none;">
+                        Confirmer la commande 🚀
+                    </button>
+                </div>
             </div>
         </div>
 
-        <div id="step-2-delivery" style="display:none;">
-            <button class="back-link" onclick="goToStep1()" style="background:none; border:none; color:#888; margin-bottom:15px;">❮ Modifier le panier</button>
-            <h3>Livraison / Meet-up</h3>
-            <div style="display:flex; gap:10px; margin-bottom:20px;">
-                <label class="radio-card" style="flex:1;">
-                    <input type="radio" name="delivery-mode" value="meetup" checked onclick="toggleDeliveryFields()">
-                    <div class="card-content">📍 Meet-up</div>
-                </label>
-                <label class="radio-card" style="flex:1;">
-                    <input type="radio" name="delivery-mode" value="livraison" onclick="toggleDeliveryFields()">
-                    <div class="card-content">🚚 Livraison</div>
-                </label>
+        <div id="content-commandes" class="tab-content">
+            <div class="empty-state">
+                <p style="opacity: 0.5;">Aucune commande en cours.</p>
             </div>
-            <div id="meetup-fields">
-                <select id="meetup-location">
-                    <option value="Poitiers Centre">Poitiers Centre</option>
-                    <option value="Alentours (86)">Alentours (86)</option>
-                </select>
-            </div>
-            <div id="livraison-fields" style="display:none;">
-                <textarea id="delivery-address" placeholder="Rue, Code Postal, Ville..."></textarea>
-            </div>
-            <button class="btn-primary" onclick="finaliserCommande()" style="margin-top:20px; background:#34c759;">Confirmer la commande 🚀</button>
         </div>
     </div>
 
     <div id="page-avis" class="page">
-        <h1 style="text-align:center;">Avis Clients</h1>
-        <div class="review-list">
-            <div class="review-card">
-                <p><b>@Client123</b> ⭐⭐⭐⭐⭐</p>
-                <p>Qualité incroyable, livraison ultra rapide sur Poitiers !</p>
-            </div>
-        </div>
-        <button class="btn-primary" style="background:var(--card-bg);">📝 Laisser un avis</button>
+        <h1 class="page-title">Avis Clients</h1>
+        <div class="review-list"><div class="review-card"></div></div>
+        <button class="btn-avis" style="margin-top: 20px; width: 100%; padding: 15px; border-radius: 12px; border: 1px solid var(--border); background: var(--card-bg); color: white;">📝 Laisser un avis</button>
     </div>
 
     <div id="page-infos" class="page">
-        <h1 style="text-align:center;">Informations</h1>
+        <h1 class="page-title">Informations</h1>
         <div class="info-block">
             <h3 class="info-title">📍 Meet-up</h3>
             <div class="schedule-grid">
-                <div class="schedule-row"><span>Lundi - Vendredi</span> <span>11h00 - 22h00</span></div>
-                <div class="schedule-row"><span>Dimanche</span> <span style="color:#ff453a;">Fermé</span></div>
+                <div class="schedule-row"><span>Lun - Ven</span> <span>11h - 22h</span></div>
+                <div class="schedule-row"><span>Samedi</span> <span>12h - 23h</span></div>
+                <div class="schedule-row"><span>Dimanche</span> <span class="status-closed">Fermé</span></div>
             </div>
         </div>
         <div class="info-block">
             <h3 class="info-title">🚚 Livraison</h3>
-            <p>Disponible dans tout le 86. Prix selon distance.</p>
-        </div>
-    </div>
-
-    <div id="product-detail-page" class="product-detail-view">
-        <div class="detail-header" style="padding:15px; display:flex; justify-content:space-between; align-items:center;">
-            <button class="back-btn" onclick="closeProduct()" style="background:none; border:none; color:white; font-size:16px;">❮</button>
-            <img src="IMG_1178.PNG" style="height:30px;">
-        </div>
-        <div style="padding:15px;">
-            <video id="detail-video" autoplay loop muted playsinline style="width:100%; border-radius:20px;"></video>
-            <h2 id="detail-title"></h2>
-            <p id="detail-farm" style="color:var(--accent-blue);"></p>
-            <p id="detail-desc"></p>
-            <button id="add-to-cart-btn" class="btn-primary">Ajouter au panier</button>
+            <p>Disponible dans <strong>tout le 86</strong>.</p>
         </div>
     </div>
 
     <nav class="bottom-nav-glass">
         <div class="nav-item active" onclick="showPage('page-menu', this)">
-            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></div>
+            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></div>
             <span>Menu</span>
         </div>
         <div class="nav-item" onclick="showPage('page-panier', this)">
-            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div>
+            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div>
             <span>Panier</span>
         </div>
         <div class="nav-item" onclick="showPage('page-avis', this)">
-            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></div>
+            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></div>
             <span>Avis</span>
         </div>
         <div class="nav-item" onclick="showPage('page-infos', this)">
-            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></div>
+            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></div>
             <span>Infos</span>
         </div>
     </nav>
 
     <script src="script.js"></script>
+    <script>
+        const tele = window.Telegram.WebApp;
+        tele.expand();
+        tele.ready();
+    </script>
 </body>
-</html>    
+</html>
