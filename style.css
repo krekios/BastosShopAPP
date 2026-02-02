@@ -151,41 +151,48 @@ body {
 }
 /* Vue détaillée du produit */
 .product-detail-view {
-    position: fixed;
-    top: 0; left: 100%; /* Caché à droite */
+    position: fixed; top: 0; left: 100%;
     width: 100%; height: 100%;
-    background: #000;
-    z-index: 2000;
-    transition: 0.3s ease;
+    background: #000; z-index: 2000;
+    transition: transform 0.3s ease-out;
     overflow-y: auto;
-    padding-bottom: 100px;
 }
 
-.product-detail-view.active { left: 0; }
+.product-detail-view.active { transform: translateX(-100%); }
 
-.detail-header { padding: 15px; }
-.back-btn { background: none; border: none; color: white; font-size: 16px; cursor: pointer; }
-
-.detail-content { padding: 0 20px; }
-#detail-img { width: 100%; border-radius: 20px; margin-bottom: 15px; }
-
-.detail-badge { 
-    display: inline-block; background: #2c2c2e; padding: 5px 10px; 
-    border-radius: 8px; font-size: 12px; margin-bottom: 15px; 
+.media-container {
+    position: relative;
+    width: 92%; margin: 10px auto;
+    border-radius: 20px; overflow: hidden;
+    aspect-ratio: 1/1; /* Carré comme sur la capture */
 }
 
-.farm-name { color: #888; margin-top: -10px; }
-.description { color: #666; font-size: 14px; margin-top: 15px; }
+#detail-video, #detail-img {
+    width: 100%; height: 100%; object-fit: cover;
+}
 
-.separator { height: 1px; background: rgba(255,255,255,0.1); margin: 20px 0; }
+.text-section { padding: 0 20px; margin-top: 15px; }
+.text-section h2 { margin: 0; font-size: 24px; font-weight: 800; }
+.farm-name { color: #888; font-size: 18px; margin: 5px 0; }
+.description { color: #666; font-size: 14px; text-transform: uppercase; }
 
-.price-header { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 15px; font-weight: bold; }
-.stock-tag { color: #444; }
+.separator-line { height: 1px; background: rgba(255,255,255,0.1); margin: 20px; }
 
-.price-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.cart-section { padding: 0 20px; }
+.cart-title-row {
+    display: flex; justify-content: space-between;
+    font-size: 13px; font-weight: bold; color: #aaa; margin-bottom: 15px;
+}
+
+.price-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
+}
+
 .price-grid button {
-    background: #1c1c1e; border: 1px solid #333; color: white;
-    padding: 12px 5px; border-radius: 12px; font-size: 13px;
+    background: #1c1c1e; border: 1px solid #2c2c2e;
+    border-radius: 15px; padding: 12px 5px; color: white;
     display: flex; flex-direction: column; align-items: center;
+    font-weight: bold; font-size: 14px;
 }
-.price-grid button span { font-size: 11px; opacity: 0.6; }
+
+.price-grid button span { font-size: 11px; opacity: 0.5; margin-top: 2px; }
