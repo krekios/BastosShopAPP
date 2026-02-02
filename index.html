@@ -11,7 +11,7 @@
 
     <div id="page-menu" class="page active">
         <header class="main-header">
-            <img src="https://github.com/krekios/BastosShopAPP/blob/main/IMG_1178.PNG"  class="main-logo-img">
+            <img src="https://github.com/krekios/BastosShopAPP/blob/main/IMG_1178.PNG" class="main-logo-img">
             <div class="top-buttons">
                 <button onclick="window.Telegram?.WebApp?.showAlert('Farms bientôt disponibles')">Farms</button>
                 <button onclick="window.Telegram?.WebApp?.showAlert('Filtres bientôt disponibles')">Catégories</button>
@@ -27,8 +27,7 @@
                     <p>KGF 🦊</p>
                 </div>
             </div>
-            
-            </div>
+        </div>
     </div>
 
     <div id="product-detail-page" class="product-detail-view">
@@ -54,10 +53,8 @@
 
             <div class="cart-section">
                 <div class="cart-title-row">
-                    <span>AJOUTER AU PANIER</span>
-                    <span class="stock-status" id="detail-stock">Stock: 100G</span>
+                    <span style="padding-left: 20px; font-weight: bold; font-size: 12px; opacity: 0.8;">AJOUTER AU PANIER</span>
                 </div>
-                
                 <div id="price-grid-dynamic" class="price-grid-compact"></div>
             </div>
         </div>
@@ -77,9 +74,7 @@
                     <p>Votre panier est vide</p>
                 </div>
             </div>
-            
-            <div id="cart-footer" style="display:none; padding: 20px;">
-                </div>
+            <div id="cart-footer" style="display:none; padding: 20px;"></div>
         </div>
 
         <div id="content-commandes" class="tab-content">
@@ -96,7 +91,7 @@
                 <p><strong>Victor Osk</strong> - il y a 2 semaines</p>
                 <p>Trop cherry ✅ Qualité incroyable.</p>
             </div>
-            </div>
+        </div>
         <button class="btn-avis" style="margin-top: 20px; width: 100%; padding: 15px; border-radius: 12px; border: 1px solid var(--border); background: var(--card-bg); color: white;">📝 Laisser un avis</button>
     </div>
 
@@ -120,9 +115,8 @@
 
     <script src="script.js"></script>
     <script>
-        // Initialisation de la Mini App Telegram
         const tele = window.Telegram.WebApp;
-        tele.expand(); // Ouvre l'app en plein écran immédiatement
+        tele.expand();
         tele.ready();
     </script>
 </body>
