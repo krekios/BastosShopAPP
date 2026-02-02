@@ -2,35 +2,84 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Profil Bot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ma Boutique</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <div class="profile-header">
-            <div class="avatar">👤</div>
-            <h2 id="username">Utilisateur_VIP</h2>
-            <p class="status">Membre Premium</p>
-        </div>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <span class="label">Solde</span>
-                <span class="value">1,250 €</span>
+    <div id="page-menu" class="page active">
+        <header class="main-header">
+            <div class="logo-placeholder">TON LOGO ICI</div>
+            <div class="top-buttons">
+                <button>Farms</button>
+                <button>Catégories</button>
             </div>
-            <div class="stat-card">
-                <span class="label">Rang</span>
-                <span class="value">#42</span>
-            </div>
-        </div>
+        </header>
 
-        <div class="menu-list">
-            <button class="menu-item">⚙️ Paramètres</button>
-            <button class="menu-item">💳 Recharger</button>
-            <button class="menu-item">📊 Historique</button>
-            <button class="menu-item logout">Quitter</button>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="badge">STATIC SIFT 🇺🇸</div>
+                <img src="https://via.placeholder.com/150" alt="Produit">
+                <div class="product-info">
+                    <h3>APPLE COYI 🍏</h3>
+                    <p>CALITE FARM 🦍</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="badge">STATIC SIFT 🇺🇸</div>
+                <img src="https://via.placeholder.com/150" alt="Produit">
+                <div class="product-info">
+                    <h3>AMARETO 🍋</h3>
+                    <p>CALITE FARM 🦍</p>
+                </div>
+            </div>
         </div>
     </div>
+
+    <div id="page-panier" class="page">
+        <h1 class="page-title">Panier</h1>
+        <div class="empty-cart">
+            <span class="emoji-duck">🐥</span>
+            <p>Votre panier est vide</p>
+        </div>
+    </div>
+
+    <div id="page-avis" class="page">
+        <h1 class="page-title">Avis</h1>
+        <button class="btn-avis">📝 Laisser un avis</button>
+        <div class="review-list">
+            <div class="review-card">
+                <p><strong>Victor Osk</strong> - il y a 2 semaines</p>
+                <p>Trop cherry ✅</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-infos" class="page">
+        <h1 class="page-title">Informations</h1>
+        <div class="info-block">
+            <h3>📦 Mode d'envois</h3>
+            <p>- Mondial Relay = 10€</p>
+            <p>- La Poste = 10€</p>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="showPage('page-menu', this)">
+            <i>🏠</i><span>Menu</span>
+        </div>
+        <div class="nav-item" onclick="showPage('page-panier', this)">
+            <i>🛒</i><span>Panier</span>
+        </div>
+        <div class="nav-item" onclick="showPage('page-avis', this)">
+            <i>💬</i><span>Avis</span>
+        </div>
+        <div class="nav-item" onclick="showPage('page-infos', this)">
+            <i>ℹ️</i><span>Infos</span>
+        </div>
+    </nav>
+
+    <script src="script.js"></script>
 </body>
 </html>
