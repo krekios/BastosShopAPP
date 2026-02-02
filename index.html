@@ -3,118 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ma Boutique</title>
+    <title>DryPlug Paris - Boutique</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
 
     <div id="page-menu" class="page active">
-<header class="main-header">
-    <img src="URL_DE_TON_LOGO" alt="DryPlug Paris" class="main-logo-img">
-    <div class="top-buttons">
-        <button>Farms</button>
-        <button>Catégories</button>
-    </div>
-</header>
+        <header class="main-header">
+            <img src="URL_DE_TON_LOGO" alt="DryPlug Paris" class="main-logo-img">
+            <div class="top-buttons">
+                <button onclick="window.Telegram?.WebApp?.showAlert('Farms bientôt disponibles')">Farms</button>
+                <button onclick="window.Telegram?.WebApp?.showAlert('Filtres bientôt disponibles')">Catégories</button>
+            </div>
+        </header>
         
         <div class="product-grid">
-            <div class="product-card" onclick="openProduct('Trap Grapez 🍇', 'KGF 🦊', 'FROZEN 🇲🇦', 'https://filebin.net/13jtpf94uqhipi0k/grapez2.mp4', 'KGF x TERPHOGZ SEASON 2026', true)">
-                <div class="badge">FROZEN SIFT🇲🇦</div>
-                <img src="https://ton-image.jpg" alt="Produit"> 
+            <div class="product-card" onclick="openProduct('Trap Grapez 90u 🍇', 'KGF 🦊', 'FROZEN 🇲🇦', 'https://tu-dois-mettre-un-lien-direct-video.mp4', 'KGF x TERPHOGZ SEASON 2026', true)">
+                <div class="badge">FROZEN SIFT 🇲🇦</div>
+                <img src="https://ton-image-produit.jpg" alt="Trap Grapez"> 
                 <div class="product-info">
-                    <h3>Trap Grapez 90u🍇</h3>
+                    <h3>Trap Grapez 90u 🍇</h3>
                     <p>KGF 🦊</p>
                 </div>
             </div>
-        </div>
-    </div>
-
-<div id="product-detail-page" class="product-detail-view">
-    <div class="detail-header">
-        <button class="back-btn" onclick="closeProduct()">❮ Retour</button>
-        <img src="URL_DE_TON_LOGO" alt="Logo" class="mini-logo-header">
-    </div>
-    
-    <div class="detail-content-wrapper">
-        <div class="media-container">
-            <div class="detail-badge" id="detail-tag">FROZEN SIFT🇲🇦</div>
-            <video id="detail-video" autoplay loop muted playsinline></video>
-            <img id="detail-img" src="" alt="Produit">
-        </div>
-
-        <div class="text-section centered">
-            <h2 id="detail-title">Trap Grapez 90u🍇</h2>
-            <p id="detail-farm" class="farm-name">KGF 🦊</p>
-            <p id="detail-desc" class="description">KGF x TERPHOGZ SEASON 2026</p>
-        </div>
-
-        <div class="separator-line"></div>
-
-        <div class="cart-section">
-            <div class="cart-title-row">
-                <span>AJOUTER AU PANIER</span>
-                <span class="stock-status" id="detail-stock">Stock: 100G</span>
-            </div>
             
-            <div id="price-grid-dynamic" class="price-grid-compact"></div>
-        </div>
-    </div>
-</div>
-
-    <div id="page-panier" class="page">
-        <h1 class="page-title">Panier</h1>
-        <div class="tab-container">
-            <button class="tab-btn active" id="btn-tab-panier" onclick="switchTab('panier')">🛒 Panier</button>
-            <button class="tab-btn" id="btn-tab-commandes" onclick="switchTab('commandes')">📋 Commandes</button>
-        </div>
-
-        <div id="content-panier" class="tab-content active">
-            <div id="cart-items-list">
-                <div class="empty-state">
-                    <div class="duck-icon">🐥</div>
-                    <p>Votre panier est vide</p>
-                </div>
             </div>
-            <div id="cart-footer" style="display:none; padding: 20px;">
-                <button class="tab-btn active" style="width:100%" onclick="validerCommande()">Valider la commande</button>
-            </div>
-        </div>
-
-        <div id="content-commandes" class="tab-content">
-            <div class="empty-state">
-                <p style="opacity: 0.5;">Aucune commande effectuée.</p>
-            </div>
-        </div>
     </div>
 
-    <div id="page-avis" class="page">
-        <h1 class="page-title">Avis</h1>
-        <button class="btn-avis">📝 Laisser un avis</button>
-        <div class="review-list">
-            <div class="review-card">
-                <p><strong>Victor Osk</strong> - il y a 2 semaines</p>
-                <p>Trop cherry ✅</p>
-            </div>
+    <div id="product-detail-page" class="product-detail-view">
+        <div class="detail-header">
+            <button class="back-btn" onclick="closeProduct()">❮ Retour</button>
+            <img src="URL_DE_TON_LOGO" alt="Logo" class="mini-logo-header">
         </div>
-    </div>
-
-    <div id="page-infos" class="page">
-        <h1 class="page-title">Informations</h1>
-        <div class="info-block">
-            <h3>📦 Mode d'envois</h3>
-            <p>- Mondial Relay = 10€</p>
-            <p>- La Poste = 10€</p>
-        </div>
-    </div>
-
-    <nav class="bottom-nav">
-        <div class="nav-item active" onclick="showPage('page-menu', this)"><i>🏠</i><span>Menu</span></div>
-        <div class="nav-item" onclick="showPage('page-panier', this)"><i>🛒</i><span>Panier</span></div>
-        <div class="nav-item" onclick="showPage('page-avis', this)"><i>💬</i><span>Avis</span></div>
-        <div class="nav-item" onclick="showPage('page-infos', this)"><i>ℹ️</i><span>Infos</span></div>
-    </nav>
-
-    <script src="script.js"></script>
-</body>
-</html>
+        
+        <div class="detail-card">
+            <div class="media-container">
+                <div
