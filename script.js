@@ -58,11 +58,11 @@ function addToCartDetailed(poids, prix) {
     const itemName = `${currentProduct.name} (${poids})`;
     cart.push({ name: itemName, price: prix });
     
-    window.Telegram?.WebApp?.showAlert(`Ajouté : ${itemName}`);
     window.Telegram?.WebApp?.HapticFeedback.notificationOccurred('success');
     
     updateCartUI();
     closeProduct();
+    window.Telegram?.WebApp?.showAlert(`Ajouté : ${itemName}`);
 }
 
 function updateCartUI() {
@@ -82,7 +82,7 @@ function updateCartUI() {
         total += item.price;
         list.innerHTML += `
             <div style="background:rgba(255,255,255,0.05); margin-bottom:10px; padding:15px; border-radius:15px; display:flex; justify-content:space-between; align-items:center;">
-                <div><b>${item.name}</b><br><small>${item.price}€</small></div>
+                <div style="text-align: left;"><b>${item.name}</b><br><small>${item.price}€</small></div>
                 <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff453a; font-weight:bold;">Supprimer</button>
             </div>`;
     });
@@ -96,30 +96,21 @@ function removeItem(index) {
 
 function validerCommande() {
     if (cart.length === 0) return;
-
     let total = 0;
     let recap = "";
-    
     cart.forEach(item => {
         recap += `- ${item.name} : ${item.price}€\n`;
         total += item.price;
     });
-
     const commandeData = {
         items: cart,
         total: total,
         recapitulatif: recap,
         date: new Date().toLocaleString('fr-FR')
     };
-
-    // On demande confirmation à l'utilisateur via l'interface native Telegram
     window.Telegram.WebApp.showConfirm(`Confirmer la commande de ${total}€ ?`, (isConfirmed) => {
         if (isConfirmed) {
-            // ENVOI DES DONNÉES AU BOT
             window.Telegram.WebApp.sendData(JSON.stringify(commandeData));
-            
-            // On peut aussi fermer l'app après l'envoi
-            // window.Telegram.WebApp.close();
         }
     });
 }
