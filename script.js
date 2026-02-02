@@ -89,11 +89,13 @@ function openProduct(name, farm, tag, mediaUrl, desc, isVideo = false) {
     const iNode = document.getElementById('detail-img');
 
     if(isVideo) {
-        vNode.style.display = "block";
-        vNode.querySelector('source').src = mediaUrl; // Correct pour changer la source
-        vNode.load(); // Indispensable pour que la vidéo se recharge
-        vNode.play();
         iNode.style.display = "none";
+        vNode.style.display = "block";
+        
+        // On change la source directement sur l'élément vidéo
+        vNode.src = mediaUrl; 
+        vNode.load(); // Indispensable pour rafraîchir le lecteur
+        vNode.play().catch(e => console.log("Lecture auto bloquée"));
     } else {
         vNode.style.display = "none";
         vNode.pause();
@@ -101,17 +103,17 @@ function openProduct(name, farm, tag, mediaUrl, desc, isVideo = false) {
         iNode.src = mediaUrl;
     }
 
-    // Ici on pourra plus tard personnaliser les tarifs par produit
-    // Pour l'instant on garde tes tarifs par défaut
+    // Génération des boutons compacts
     const grid = document.getElementById('price-grid-dynamic');
     const tarifs = [
-        {p: '1g', v: 20}, {p: '2g', v: 30}, {p: '5g', v: 60},
-        {p: '10g', v: 110}, {p: '25g', v: 220}
+        {p: '5g', v: 160}, {p: '10g', v: 310}, {p: '20g', v: 600},
+        {p: '30g', v: 840}, {p: '50g', v: 1100}, {p: '100g', v: 2100}
     ];
 
     grid.innerHTML = "";
     tarifs.forEach(t => {
-        grid.innerHTML += `<button onclick="addToCartDetailed('${t.p}', ${t.v})">${t.v}€ <span>${t.p}</span></button>`;
+        // Formatage "160€ 5g" sur une seule ligne comme la capture
+        grid.innerHTML += `<button onclick="addToCartDetailed('${t.p}', ${t.v})">${t.v}€ ${t.p}</button>`;
     });
 
     document.getElementById('product-detail-page').classList.add('active');
@@ -144,45 +146,4 @@ function validerCommande() {
     
     // Pour l'instant on affiche, mais on pourra envoyer au bot après
     alert(message);
-}
-function openProduct(name, farm, tag, mediaUrl, desc, isVideo = false) {
-    currentProduct = { name, farm };
-    
-    document.getElementById('detail-title').innerText = name;
-    document.getElementById('detail-farm').innerText = farm;
-    document.getElementById('detail-tag').innerText = tag;
-    document.getElementById('detail-desc').innerText = desc;
-
-    const vNode = document.getElementById('detail-video');
-    const iNode = document.getElementById('detail-img');
-
-    if(isVideo) {
-        iNode.style.display = "none";
-        vNode.style.display = "block";
-        
-        // On change la source directement sur l'élément vidéo
-        vNode.src = mediaUrl; 
-        vNode.load(); // Indispensable pour rafraîchir le lecteur
-        vNode.play().catch(e => console.log("Lecture auto bloquée"));
-    } else {
-        vNode.style.display = "none";
-        vNode.pause();
-        iNode.style.display = "block";
-        iNode.src = mediaUrl;
-    }
-
-    // Génération des boutons compacts
-    const grid = document.getElementById('price-grid-dynamic');
-    const tarifs = [
-        {p: '5g', v: 160}, {p: '10g', v: 310}, {p: '20g', v: 600},
-        {p: '30g', v: 840}, {p: '50g', v: 1100}, {p: '100g', v: 2100}
-    ];
-
-    grid.innerHTML = "";
-    tarifs.forEach(t => {
-        // Formatage "160€ 5g" sur une seule ligne comme la capture
-        grid.innerHTML += `<button onclick="addToCartDetailed('${t.p}', ${t.v})">${t.v}€ ${t.p}</button>`;
-    });
-
-    document.getElementById('product-detail-page').classList.add('active');
 }
