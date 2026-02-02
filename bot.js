@@ -1,8 +1,12 @@
-const { Telegraf } = require('telegraf');
-const config = require('./config.js'); 
+const bot = new Telegraf("TON_NOUVEAU_TOKEN_ICI"); 
 
-const bot = new Telegraf(config.TOKEN);
-const MON_ID_PERSONNEL = config.MY_ID;
+bot.start((ctx) => ctx.reply('Bastos Bot est vivant !'));
+
+bot.launch().then(() => {
+    console.log("🚀 TEST RÉUSSI : Le bot tourne !");
+}).catch((err) => {
+    console.error("❌ ERREUR :", err.message);
+});
 
 bot.on('web_app_data', (ctx) => {
     // On reçoit les données JSON de ta Mini App
