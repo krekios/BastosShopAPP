@@ -78,9 +78,34 @@ body {
 }
 .product-detail-view.active { transform: translateY(0); visibility: visible; }
 
-.detail-header { padding: 15px; display: flex; align-items: center; position: sticky; top: 0; z-index: 10; background: linear-gradient(to bottom, black, transparent); }
-.back-btn { background: rgba(255,255,255,0.1); border: none; color: white; padding: 8px 15px; border-radius: 20px; backdrop-filter: blur(10px); cursor: pointer; }
+.detail-header { 
+    padding: 10px 15px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; /* Force le bouton à gauche et le logo à droite */
+    position: sticky; 
+    top: 0; 
+    z-index: 10; 
+    background: rgba(0, 0, 0, 0.8); /* Fond semi-transparent pour la lisibilité */
+    backdrop-filter: blur(10px);
+}
 
+.mini-logo-header { 
+    height: 35px; /* On fixe une petite hauteur */
+    width: auto;  /* Garde les proportions */
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
+}
+
+.back-btn { 
+    background: rgba(255,255,255,0.1); 
+    border: 1px solid var(--border); 
+    color: white; 
+    padding: 6px 12px; 
+    border-radius: 20px; 
+    font-size: 13px;
+    cursor: pointer; 
+}
 .detail-card { width: 92%; margin: 10px auto 120px; background: rgba(20, 20, 20, 0.95); border-radius: 30px; border: 1px solid var(--border); overflow: hidden; }
 .media-container { position: relative; width: 100%; aspect-ratio: 1/1; background: #111; }
 #detail-video, #detail-img { width: 100%; height: 100%; object-fit: cover; }
