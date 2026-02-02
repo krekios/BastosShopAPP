@@ -17,7 +17,21 @@
                 <button onclick="window.Telegram?.WebApp?.showAlert('Filtres bientôt disponibles')">Catégories</button>
             </div>
         </header>
-        
+      
+        <div class="filter-container">
+    <select id="farm-filter" onchange="filterProducts()">
+        <option value="all">Toutes les Farms</option>
+        <option value="KGF">KGF</option>
+    </select>
+
+    <select id="category-filter" onchange="filterProducts()">
+        <option value="all">Toutes les Catégories</option>
+        <option value="hash">Hash</option>
+        <option value="tabac">Tabac</option>
+        <option value="weed">Weed</option>
+ 
+    </select>
+</div>
         <div class="product-grid">
             <div class="product-card" onclick="openProduct('Trap Grapez 90u 🍇', 'KGF 🦊', 'FROZEN 🇲🇦', 'https://i.imgur.com/MbC46Y0.mp4', 'KGF x TERPHOGZ SEASON 2026', true)">
                 <div class="badge">FROZEN SIFT 🇲🇦</div>
