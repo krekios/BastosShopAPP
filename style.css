@@ -3,196 +3,96 @@
     --card-bg: rgba(28, 28, 30, 0.7);
     --accent-blue: #248bfe;
     --border: rgba(255, 255, 255, 0.1);
+    --text-dim: #a0a0a0; /* Ajout de la variable manquante */
 }
 
 body {
     background-color: var(--bg-dark);
-    /* Ajoute ton logo en fond si tu veux l'effet de la capture */
+    /* Remplace 'ton-logo.png' par ton vrai lien si tu en as un */
     background-image: url('ton-logo-en-filigrane.png');
     background-attachment: fixed;
     background-size: cover;
     color: white;
     margin: 0;
     font-family: -apple-system, system-ui, sans-serif;
+    overflow-x: hidden;
 }
 
-/* Container principal */
-.page { display: none; padding: 20px 15px 100px; }
+/* --- PAGES & ANIMATIONS --- */
+.page { display: none; padding: 20px 15px 120px; min-height: 100vh; box-sizing: border-box; }
 .page.active { display: block; animation: fadeIn 0.3s ease; }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* Boutons du haut (Farms / Catégories) */
-.top-buttons {
-    display: flex; gap: 10px; margin: 20px 0;
-}
+/* --- MENU PRINCIPAL (HOME) --- */
+.main-header { text-align: center; margin-bottom: 20px; }
+.logo-placeholder { font-weight: bold; font-size: 20px; margin: 10px 0; }
+
+.top-buttons { display: flex; gap: 10px; margin: 20px 0; }
 .top-buttons button {
-    flex: 1;
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    backdrop-filter: blur(15px);
-    color: white;
-    padding: 12px;
-    border-radius: 12px;
-    font-weight: 600;
+    flex: 1; background: var(--card-bg); border: 1px solid var(--border);
+    backdrop-filter: blur(15px); color: white; padding: 12px;
+    border-radius: 12px; font-weight: 600;
 }
 
-/* Grille de produits style capture */
-.product-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-}
+.product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .product-card {
-    background: var(--card-bg);
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    overflow: hidden;
-    position: relative;
-    backdrop-filter: blur(10px);
+    background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border);
+    overflow: hidden; position: relative; backdrop-filter: blur(10px);
 }
-.badge {
-    position: absolute; top: 8px; right: 8px;
-    background: rgba(0,0,0,0.6);
-    padding: 4px 8px; border-radius: 8px;
-    font-size: 10px; font-weight: bold;
-    border: 1px solid rgba(255,255,255,0.1);
-}
-.product-info {
-    padding: 12px;
-    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-}
-.product-info h3 { margin: 0; font-size: 14px; text-transform: uppercase; }
-.product-info p { margin: 4px 0 0; font-size: 11px; color: #aaa; }
+.product-card img { width: 100%; height: 150px; object-fit: cover; }
 
-/* Navigation du bas (Look Premium) */
+.badge {
+    position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6);
+    padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: bold;
+    border: 1px solid rgba(255,255,255,0.1); z-index: 2;
+}
+
+.product-info { padding: 12px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); }
+.product-info h3 { margin: 0; font-size: 14px; text-transform: uppercase; }
+.product-info p { margin: 4px 0 0; font-size: 11px; color: var(--text-dim); }
+
+/* --- NAVIGATION BASSE --- */
 .bottom-nav {
-    position: fixed; bottom: 20px; left: 50%;
-    transform: translateX(-50%);
-    width: 92%;
-    background: rgba(30, 30, 30, 0.8);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--border);
-    border-radius: 40px;
-    display: flex; justify-content: space-around;
-    padding: 8px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-    z-index: 1000;
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    width: 92%; background: rgba(30, 30, 30, 0.85); backdrop-filter: blur(20px);
+    border: 1px solid var(--border); border-radius: 40px;
+    display: flex; justify-content: space-around; padding: 8px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 1000;
 }
 .nav-item {
     display: flex; flex-direction: column; align-items: center;
-    padding: 8px 15px; border-radius: 30px;
-    transition: 0.3s; opacity: 0.5;
+    padding: 8px 15px; border-radius: 30px; opacity: 0.5; transition: 0.3s;
 }
-.nav-item.active {
-    background: rgba(255,255,255,0.1);
-    opacity: 1;
-}
+.nav-item.active { background: rgba(255,255,255,0.1); opacity: 1; }
 .nav-item i { font-size: 20px; margin-bottom: 4px; font-style: normal; }
 .nav-item span { font-size: 10px; font-weight: 500; }
-/* Container des onglets */
-.tab-container {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
 
+/* --- PANIER & ONGLETS --- */
+.tab-container { display: flex; gap: 10px; margin-bottom: 20px; }
 .tab-btn {
-    flex: 1;
-    padding: 12px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    background: var(--card-bg);
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
+    flex: 1; padding: 12px; border-radius: 12px; border: 1px solid var(--border);
+    background: var(--card-bg); color: white; font-weight: bold; cursor: pointer;
 }
-
-/* Style du bouton actif (Bleu comme sur ta capture) */
-.tab-btn.active {
-    background: var(--accent-blue);
-    border-color: var(--accent-blue);
-    box-shadow: 0 4px 15px rgba(36, 139, 254, 0.4);
-}
-
-/* Gestion de l'affichage des contenus */
-.tab-content { display: none; text-align: center; padding-top: 50px; }
-.tab-content.active { display: block; animation: fadeIn 0.3s; }
-
-.duck-icon {
-    font-size: 80px;
-    margin-bottom: 10px;
-}
-
-.empty-state p {
-    font-size: 16px;
-    color: var(--text-dim);
-}
-.add-to-cart {
-    width: 100%;
-    background: var(--accent-blue);
-    color: white;
-    border: none;
-    padding: 8px;
-    border-radius: 8px;
-    margin-top: 10px;
-    font-size: 12px;
-    font-weight: bold;
-    cursor: pointer;
-}
+.tab-btn.active { background: var(--accent-blue); border-color: var(--accent-blue); }
 
 .cart-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--card-bg);
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 12px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--card-bg); padding: 15px; margin-bottom: 10px;
+    border-radius: 15px; border: 1px solid var(--border); text-align: left;
 }
-/* Vue détaillée du produit */
+.item-info { display: flex; flex-direction: column; }
+.item-name { font-weight: bold; font-size: 14px; }
+.item-price { color: var(--accent-blue); font-size: 12px; }
+.delete-btn { background: none; border: none; color: #ff453a; font-weight: bold; padding: 10px; }
+
+/* --- VUE DÉTAILLÉE PRODUIT --- */
 .product-detail-view {
-    position: fixed; top: 0; left: 100%;
-    width: 100%; height: 100%;
-    background: #000; z-index: 2000;
-    transition: transform 0.3s ease-out;
-    overflow-y: auto;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #000; z-index: 2000; transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); overflow-y: auto;
 }
+.product-detail-view.active { transform: translateX(0); }
 
-.product-detail-view.active { transform: translateX(-100%); }
-
-.media-container {
-    position: relative;
-    width: 92%; margin: 10px auto;
-    border-radius: 20px; overflow: hidden;
-    aspect-ratio: 1/1; /* Carré comme sur la capture */
-}
-
-#detail-video, #detail-img {
-    width: 100%; height: 100%; object-fit: cover;
-}
-
-.text-section { padding: 0 20px; margin-top: 15px; }
-.text-section h2 { margin: 0; font-size: 24px; font-weight: 800; }
-.farm-name { color: #888; font-size: 18px; margin: 5px 0; }
-.description { color: #666; font-size: 14px; text-transform: uppercase; }
-
-.separator-line { height: 1px; background: rgba(255,255,255,0.1); margin: 20px; }
-
-.cart-section { padding: 0 20px; }
-.cart-title-row {
-    display: flex; justify-content: space-between;
-    font-size: 13px; font-weight: bold; color: #aaa; margin-bottom: 15px;
-}
-
-.price-grid {
-    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
-}
-
-.price-grid button {
-    background: #1c1c1e; border: 1px solid #2c2c2e;
-    border-radius: 15px; padding: 12px 5px; color: white;
-    display: flex; flex-direction: column; align-items: center;
-    font-weight: bold; font-size: 14px;
-}
-
-.price-grid button span { font-size: 11px; opacity: 0.5; margin-top: 2px; }
+.detail-header { padding: 15px; position: sticky; top: 0; z-index: 10; background: linear-gradient(to bottom, black, transparent); }
+.back-btn {
