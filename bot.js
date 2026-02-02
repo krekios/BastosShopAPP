@@ -1,18 +1,17 @@
-const bot = new Telegraf("TON_NOUVEAU_TOKEN_ICI"); 
+const { Telegraf } = require('telegraf');
+const config = require('./config.js');
 
-bot.start((ctx) => ctx.reply('Bastos Bot est vivant !'));
+const bot = new Telegraf(config.TOKEN);
+const MON_ID_PERSONNEL = config.MY_ID;
 
-bot.launch().then(() => {
-    console.log("🚀 TEST RÉUSSI : Le bot tourne !");
-}).catch((err) => {
-    console.error("❌ ERREUR :", err.message);
-});
+bot.start((ctx) => ctx.reply('Bastos Bot est vivant ! 🚀'));
 
 bot.on('web_app_data', (ctx) => {
-    // On reçoit les données JSON de ta Mini App
-    const data = JSON.parse(ctx.webAppMessage.text);
-    
-    const messageCommande = `
+    try {
+        // On reçoit les données de la Mini App
+        const data = JSON.parse(ctx.webAppData.data.json_string); // Version corrigée pour Telegraf
+        
+        const messageCommande = `
 🛍️ **NOUVELLE COMMANDE BASTOS SHOP**
 ━━━━━━━━━━━━━━━━━━
 👤 **Client :** @${ctx.from.username || ctx.from.first_name}
@@ -24,14 +23,23 @@ ${data.recapitulatif}
 💰 **TOTAL À PAYER : ${data.total}€**
 ━━━━━━━━━━━━━━━━━━
 📅 _Le ${data.date}_
-    `;
+        `;
 
-    // Le bot t'envoie la commande à TOI
-    ctx.telegram.sendMessage(MON_ID_PERSONNEL, messageCommande, { parse_mode: 'Markdown' });
+        // Envoie la commande à l'admin
+        bot.telegram.sendMessage(MON_ID_PERSONNEL, messageCommande, { parse_mode: 'Markdown' });
 
-    // Le bot répond au client dans la conversation
-    ctx.reply("✅ Ta commande a été envoyée !");
+        // Répond au client
+        ctx.reply("✅ Ta commande a été envoyée avec succès !");
+        
+    } catch (err) {
+        console.error("Erreur réception commande:", err);
+        ctx.reply("❌ Erreur lors de la réception de la commande.");
+    }
 });
 
-bot.launch();
-console.log("🚀 Le bot BASTOS SHOP est en ligne et attends les commandes...");
+// Lancement unique du bot
+bot.launch().then(() => {
+    console.log("🚀 Le bot BASTOS SHOP est en ligne et attend les commandes...");
+}).catch((err) => {
+    console.error("❌ ERREUR DE LANCEMENT :", err.message);
+});
