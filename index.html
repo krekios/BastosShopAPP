@@ -18,13 +18,47 @@
             </div>
         </header>
         
-           <div class="product-card">
-    <div class="badge">FROZEN</div>
-    <img src="https://via.placeholder.com/150" alt="Produit">
-    <div class="product-info">
-        <h3>Trap Grapez 🍏</h3>
-        <p>KGF 🦍</p>
-        <button class="add-to-cart" onclick="addToCart('Trap Grapez 🍏', 0)">Ajouter au panier</button>
+     <div class="product-grid">
+    <div class="product-card" onclick="openProduct('APPLE COYI 🍏', 'CALITE FARM 🦍', 'STATIC SIFT 🇺🇸', 'https://ton-image.jpg', 'REGULAR + SEASON 2026')">
+        <div class="badge">STATIC SIFT 🇺🇸</div>
+        <img src="https://ton-image.jpg" alt="Produit">
+        <div class="product-info">
+            <h3>APPLE COYI 🍏</h3>
+            <p>CALITE FARM 🦍</p>
+        </div>
+    </div>
+</div>
+
+<div id="product-detail-page" class="product-detail-view">
+    <div class="detail-header">
+        <button class="back-btn" onclick="closeProduct()">❮ Retour</button>
+    </div>
+    
+    <div class="detail-content">
+        <img id="detail-img" src="" alt="">
+        <div class="detail-badge" id="detail-tag"></div>
+        
+        <h2 id="detail-title"></h2>
+        <p id="detail-farm" class="farm-name"></p>
+        <p id="detail-desc" class="description"></p>
+        
+        <div class="separator"></div>
+        
+        <div class="price-section">
+            <div class="price-header">
+                <span>AJOUTER AU PANIER</span>
+                <span class="stock-tag">Stock: 100g</span>
+            </div>
+            
+            <div class="price-grid">
+                <button onclick="addToCartDetailed('5g', 160)">160€ <span>5g</span></button>
+                <button onclick="addToCartDetailed('10g', 310)">310€ <span>10g</span></button>
+                <button onclick="addToCartDetailed('20g', 600)">600€ <span>20g</span></button>
+                <button onclick="addToCartDetailed('30g', 840)">840€ <span>30g</span></button>
+                <button onclick="addToCartDetailed('50g', 1100)">1100€ <span>50g</span></button>
+                <button onclick="addToCartDetailed('100g', 2100)">2100€ <span>100g</span></button>
+            </div>
+        </div>
     </div>
 </div>
         </div>
