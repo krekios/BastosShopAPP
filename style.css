@@ -195,3 +195,21 @@ body {
     color: #ff453a;
     font-weight: bold;
 }
+.filter-container {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    justify-content: center;
+}
+
+.filter-container select {
+    background: #1a1a1a;
+    color: white;
+    border: 1px solid #333;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    flex: 1; /* Pour qu'ils prennent la même largeur */
+    max-width: 150px;
+}
