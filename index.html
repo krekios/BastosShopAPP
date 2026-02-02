@@ -20,23 +20,22 @@
 
         <div class="product-grid">
             <div class="product-card">
-                <div class="badge">STATIC SIFT 🇺🇸</div>
+                <div class="badge">FROZEN </div>
                 <img src="https://via.placeholder.com/150" alt="Produit">
                 <div class="product-info">
-                    <h3>APPLE COYI 🍏</h3>
-                    <p>CALITE FARM 🦍</p>
+                    <h3>Trap Grapez 🍏</h3>
+                    <p>KGF 🦍</p>
                 </div>
             </div>
-            <div class="product-card">
-                <div class="badge">STATIC SIFT 🇺🇸</div>
-                <img src="https://via.placeholder.com/150" alt="Produit">
-                <div class="product-info">
-                    <h3>AMARETO 🍋</h3>
-                    <p>CALITE FARM 🦍</p>
-                </div>
-            </div>
-        </div>
+           <div class="product-card">
+    <div class="badge">FROZEN </div>
+    <img src="https://via.placeholder.com/150" alt="Produit">
+    <div class="product-info">
+        <h3>Trap Grapez 🍏</h3>
+        <p>KGF 🦍</p>
+        <button class="add-to-cart" onclick="addToCart('Trap Grapez 🍏', 0)">Ajouter au panier</button>
     </div>
+</div>
 
     <div id="page-panier" class="page">
     <h1 class="page-title">Panier</h1>
@@ -50,12 +49,18 @@
         </button>
     </div>
 
-    <div id="content-panier" class="tab-content active">
+   <div id="content-panier" class="tab-content active">
+    <div id="cart-items-list">
         <div class="empty-state">
             <div class="duck-icon">🐥</div>
             <p>Votre panier est vide</p>
         </div>
     </div>
+    <div id="cart-footer" style="display:none; padding: 20px;">
+        <hr border="1" style="opacity:0.1">
+        <button class="tab-btn active" style="width:100%" onclick="validerCommande()">Valider la commande</button>
+    </div>
+</div>
 
     <div id="content-commandes" class="tab-content">
         <div class="empty-state">
