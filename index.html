@@ -19,55 +19,47 @@
         </header>
         
         <div class="product-grid">
-            <div class="product-card" onclick="openProduct('Trap Grapez 🍇', 'KGF 🦊', 'FROZEN 🇲🇦', 'https://filebin.net/13jtpf94uqhipi0k/grapez.mp4.MOV', 'REGULAR + SEASON 2026', true)">
-                <div class="badge">FROZEN 🇲🇦</div>
+            <div class="product-card" onclick="openProduct('Trap Grapez 🍇', 'KGF 🦊', 'FROZEN 🇲🇦', 'https://filebin.net/13jtpf94uqhipi0k/grapez.mp4.MOV', 'KGF x TERPHOGZ SEASON 2026', true)">
+                <div class="badge">FROZEN SIFT🇲🇦</div>
                 <img src="https://ton-image.jpg" alt="Produit"> 
                 <div class="product-info">
-                    <h3>Trap Grapez 🍇</h3>
+                    <h3>Trap Grapez 90u🍇</h3>
                     <p>KGF 🦊</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="product-detail-page" class="product-detail-view">
-        <div class="detail-header">
-            <button class="back-btn" onclick="closeProduct()">❮ Retour</button>
+<div id="product-detail-page" class="product-detail-view">
+    <div class="detail-header">
+        <button class="back-btn" onclick="closeProduct()">❮ Retour</button>
+    </div>
+    
+    <div class="detail-content-wrapper">
+        <div class="media-container">
+            <div class="detail-badge" id="detail-tag">FROZEN SIFT🇲🇦</div>
+            <video id="detail-video" autoplay loop muted playsinline></video>
+            <img id="detail-img" src="" alt="Produit">
         </div>
-        
-        <div class="detail-content-wrapper">
-            <div class="media-container">
-                <div class="detail-badge" id="detail-tag">FROZEN 🇲🇦</div>
-                <video id="detail-video" autoplay loop muted playsinline>
-                    <source src="" type="video/mp4">
-                </video>
-                <img id="detail-img" src="" alt="Produit">
-            </div>
 
-            <div class="text-section">
-                <h2 id="detail-title">Trap Grapez 🍇</h2>
-                <p id="detail-farm" class="farm-name">KGF 🦊</p>
-                <p id="detail-desc" class="description">REGULAR + SEASON 2026</p>
-            </div>
+        <div class="text-section centered">
+            <h2 id="detail-title">Trap Grapez 90u🍇</h2>
+            <p id="detail-farm" class="farm-name">KGF 🦊</p>
+            <p id="detail-desc" class="description">KGF x TERPHOGZ SEASON 2026</p>
+        </div>
 
-            <div class="separator-line"></div>
+        <div class="separator-line"></div>
 
-            <div class="cart-section">
-                <div class="cart-title-row">
-                    <span>AJOUTER AU PANIER</span>
-                    <span class="stock-status">Stock: Disponible</span>
-                </div>
-                
-                <div id="price-grid-dynamic" class="price-grid">
-                    <button onclick="addToCartDetailed('1g', 20)">20€ <span>1g</span></button>
-                    <button onclick="addToCartDetailed('2g', 30)">30€ <span>2g</span></button>
-                    <button onclick="addToCartDetailed('5g', 60)">60€ <span>5g</span></button>
-                    <button onclick="addToCartDetailed('10g', 110)">110€ <span>10g</span></button>
-                    <button onclick="addToCartDetailed('25g', 220)">220€ <span>25g</span></button>
-                </div>
+        <div class="cart-section">
+            <div class="cart-title-row">
+                <span>AJOUTER AU PANIER</span>
+                <span class="stock-status" id="detail-stock">Stock: 100G</span>
             </div>
+            
+            <div id="price-grid-dynamic" class="price-grid-compact"></div>
         </div>
     </div>
+</div>
 
     <div id="page-panier" class="page">
         <h1 class="page-title">Panier</h1>
