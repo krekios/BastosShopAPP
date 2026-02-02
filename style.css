@@ -140,3 +140,54 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     border: 1px solid var(--border);
 }
+/* Logo du menu principal */
+.main-logo-img {
+    width: 180px; /* Ajuste selon la taille de ton logo */
+    margin: 10px auto;
+    display: block;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+}
+
+/* Logo dans le header de retour */
+.mini-logo-header {
+    height: 30px;
+    margin-left: auto;
+}
+
+/* La Grande Carte Produit */
+.detail-card {
+    width: 92%;
+    margin: 10px auto 100px;
+    background: rgba(20, 20, 20, 0.95);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+    padding-bottom: 20px;
+}
+
+.centered {
+    text-align: left; /* Aligné à gauche comme ta capture */
+    padding: 20px;
+}
+
+/* Boutons de prix : Petits et en Grille */
+.price-grid-compact {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 colonnes comme ta capture */
+    gap: 10px;
+    padding: 0 20px;
+}
+
+.price-grid-compact button {
+    background: #1c1c1e;
+    border: 1px solid #2c2c2e;
+    border-radius: 18px;
+    padding: 14px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
