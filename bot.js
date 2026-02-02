@@ -1,10 +1,8 @@
 const { Telegraf } = require('telegraf');
+const config = require('./config.js'); 
 
-// 1. Remplace par le Token que BotFather t'a donné
-const bot = new Telegraf('8599539724:AAEqQujGhRF3zBIvq3-dh876oj_MP75IpSk'); 
-
-// 2. Remplace par ton ID récupéré à l'étape 1
-const MON_ID_PERSONNEL = '7692710862'; 
+const bot = new Telegraf(config.TOKEN);
+const MON_ID_PERSONNEL = config.MY_ID;
 
 bot.on('web_app_data', (ctx) => {
     // On reçoit les données JSON de ta Mini App
