@@ -2,13 +2,12 @@ let cart = [];
 let currentProduct = {}; 
 
 function showPage(pageId, element) {
-    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
     
     document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
     element.classList.add('active');
-    
-    window.Telegram?.WebApp?.HapticFeedback.impactOccurred('light');
 }
 
 function openProduct(name, farm, tag, mediaUrl, desc, isVideo = false) {
