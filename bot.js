@@ -1,39 +1,41 @@
-const { Markup } = require('telegraf');
+const { Telegraf } = require('telegraf');
+const config = require('./config.js');
+
 const bot = new Telegraf(config.TOKEN);
-const MON_ID_PERSONNEL = config.MY_ID;
-// Quand quelqu'un tape /start ou lance le bot
 bot.start((ctx) => {
     return ctx.reply(
         `Bienvenue sur Bastos Shop ! 🌴\n\nClique sur le bouton ci-dessous pour ouvrir la boutique et passer commande.`,
         Markup.keyboard([
             [Markup.button.webApp('🚀 Ouvrir la Boutique', 'https://ton-lien-github.io/')]
-        ]).resize() // Le bouton s'adapte à la taille de l'écran
+        ]).resize() 
     );
 });
 
 bot.on('web_app_data', (ctx) => {
     try {
-        // On reçoit les données de la Mini App
-        const data = JSON.parse(ctx.webAppData.data.json_string); // Version corrigée pour Telegraf
+       
+        const data = JSON.parse(ctx.webAppData.data.json_string); 
         
         const messageCommande = `
-🛍️ **NOUVELLE COMMANDE BASTOS SHOP**
+const messageCommande = `
+🛍️ **NOUVELLE COMMANDE**
 ━━━━━━━━━━━━━━━━━━
-👤 **Client :** @${ctx.from.username || ctx.from.first_name}
+👤 **Client :** @${ctx.from.username}
 🆔 **ID :** ${ctx.from.id}
 
 📋 **DÉTAILS :**
 ${data.recapitulatif}
 
-💰 **TOTAL À PAYER : ${data.total}€**
-━━━━━━━━━━━━━━━━━━
-📅 _Le ${data.date}_
-        `;
+🚀 **MODE : ${data.livraison}** <-- L'info apparaîtra ici !
 
-        // Envoie la commande à l'admin
+💰 **TOTAL : ${data.total}**
+━━━━━━━━━━━━━━━━━━
+`;
+
+      
         bot.telegram.sendMessage(MON_ID_PERSONNEL, messageCommande, { parse_mode: 'Markdown' });
 
-        // Répond au client
+        
         ctx.reply("✅ Ta commande a été envoyée avec succès !");
         
     } catch (err) {
@@ -42,7 +44,7 @@ ${data.recapitulatif}
     }
 });
 
-// Lancement unique du bot
+
 bot.launch().then(() => {
     console.log("🚀 Le bot BASTOS SHOP est en ligne et attend les commandes...");
 }).catch((err) => {
