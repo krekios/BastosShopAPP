@@ -114,3 +114,19 @@ function validerCommande() {
         }
     });
 }
+function switchTab(tabName) {
+    // Désactiver tout
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+    // Activer le bon
+    if (tabName === 'panier') {
+        document.getElementById('btn-tab-panier').classList.add('active');
+        document.getElementById('content-panier').classList.add('active');
+    } else {
+        document.getElementById('btn-tab-commandes').classList.add('active');
+        document.getElementById('content-commandes').classList.add('active');
+    }
+
+    window.Telegram?.WebApp?.HapticFeedback.selectionChanged();
+}
