@@ -93,3 +93,44 @@ body {
 .price-grid-compact { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px 20px 20px; }
 .price-grid-compact button { background: #1c1c1e; border: 1px solid #2c2c2e; border-radius: 18px; padding: 14px; color: white; font-size: 14px; font-weight: bold; }
 .separator-line { height: 1px; background: var(--border); margin: 0 20px 0px; }
+/* --- BOUTONS ARTICLES / COMMANDES --- */
+.tab-container {
+    display: flex;
+    justify-content: center; /* Centre les boutons */
+    gap: 15px;
+    margin: 20px 0;
+    padding: 0 10px;
+}
+
+.tab-btn {
+    flex: 1;
+    max-width: 160px; /* Grossit les boutons */
+    padding: 15px 5px;
+    background: #000000; /* Fond noir */
+    color: #ffffff; /* Texte blanc */
+    border: 2px solid #ffffff; /* Bordure blanche épaisse */
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0.5; /* Bouton non-actif un peu transparent */
+}
+
+.tab-btn.active {
+    opacity: 1; /* Bouton actif bien brillant */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* Petit effet de lueur */
+}
+
+.tab-btn:active {
+    transform: scale(0.95);
+}
+
+/* On cache les contenus non-actifs */
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}
