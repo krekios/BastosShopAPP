@@ -128,3 +128,22 @@ function switchTab(tabName) {
     }
     window.Telegram?.WebApp?.HapticFeedback.selectionChanged();
 }
+function filterProducts() {
+    const farmValue = document.getElementById('farm-filter').value;
+    const catValue = document.getElementById('category-filter').value;
+    const products = document.querySelectorAll('.product-card');
+
+    products.forEach(product => {
+        const farm = product.getAttribute('data-farm');
+        const category = product.getAttribute('data-category');
+
+        const farmMatch = (farmValue === 'all' || farm === farmValue);
+        const catMatch = (catValue === 'all' || category === catValue);
+
+        if (farmMatch && catMatch) {
+            product.style.display = "block";
+        } else {
+            product.style.display = "none";
+        }
+    });
+}
