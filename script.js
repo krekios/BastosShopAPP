@@ -172,3 +172,19 @@ function finaliserCommande() {
 
     window.Telegram.WebApp.sendData(JSON.stringify(data));
 }
+function goToStep2() {
+    // On vérifie si le panier n'est pas vide (optionnel)
+    document.getElementById('step-1-cart').style.display = 'none';
+    document.getElementById('step-2-delivery').style.display = 'block';
+}
+
+function goToStep1() {
+    document.getElementById('step-1-cart').style.display = 'block';
+    document.getElementById('step-2-delivery').style.display = 'none';
+}
+
+function toggleDeliveryFields() {
+    const mode = document.querySelector('input[name="delivery-mode"]:checked').value;
+    document.getElementById('meetup-fields').style.display = (mode === 'meetup') ? 'block' : 'none';
+    document.getElementById('livraison-fields').style.display = (mode === 'livraison') ? 'block' : 'none';
+}
