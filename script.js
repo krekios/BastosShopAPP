@@ -96,15 +96,39 @@ function validerCommande() {
 }
 let currentProduct = {}; // Pour stocker le produit ouvert
 
-function openProduct(name, farm, tag, img, desc) {
+function openProduct(name, farm, tag, mediaUrl, desc, isVideo = false) {
     currentProduct = { name, farm };
     
     document.getElementById('detail-title').innerText = name;
     document.getElementById('detail-farm').innerText = farm;
     document.getElementById('detail-tag').innerText = tag;
-    document.getElementById('detail-img').src = img;
     document.getElementById('detail-desc').innerText = desc;
-    
+
+    const vNode = document.getElementById('detail-video');
+    const iNode = document.getElementById('detail-img');
+
+    if(isVideo) {
+        vNode.style.display = "block";
+        vNode.src = mediaUrl;
+        iNode.style.display = "none";
+    } else {
+        vNode.style.display = "none";
+        iNode.style.display = "block";
+        iNode.src = mediaUrl;
+    }
+
+    // On génère tes boutons de prix spécifiques
+    const grid = document.getElementById('price-grid-dynamic');
+    const tarifs = [
+        {p: '1g', v: 20}, {p: '2g', v: 30}, {p: '5g', v: 60},
+        {p: '10g', v: 110}, {p: '25g', v: 220}
+    ];
+
+    grid.innerHTML = "";
+    tarifs.forEach(t => {
+        grid.innerHTML += `<button onclick="addToCartDetailed('${t.p}', ${t.v})">${t.v}€ <span>${t.p}</span></button>`;
+    });
+
     document.getElementById('product-detail-page').classList.add('active');
 }
 
