@@ -95,12 +95,31 @@ function removeItem(index) {
 }
 
 function validerCommande() {
-    let msg = "Ma commande DryPlug :\n\n";
+    if (cart.length === 0) return;
+
     let total = 0;
-    cart.forEach(i => { msg += `- ${i.name} : ${i.price}€\n`; total += i.price; });
-    msg += `\nTotal : ${total}€`;
+    let recap = "";
     
-    window.Telegram?.WebApp?.showConfirm(msg, (ok) => {
-        if(ok) window.Telegram?.WebApp?.showAlert("Merci ! Commande reçue.");
+    cart.forEach(item => {
+        recap += `- ${item.name} : ${item.price}€\n`;
+        total += item.price;
+    });
+
+    const commandeData = {
+        items: cart,
+        total: total,
+        recapitulatif: recap,
+        date: new Date().toLocaleString('fr-FR')
+    };
+
+    // On demande confirmation à l'utilisateur via l'interface native Telegram
+    window.Telegram.WebApp.showConfirm(`Confirmer la commande de ${total}€ ?`, (isConfirmed) => {
+        if (isConfirmed) {
+            // ENVOI DES DONNÉES AU BOT
+            window.Telegram.WebApp.sendData(JSON.stringify(commandeData));
+            
+            // On peut aussi fermer l'app après l'envoi
+            // window.Telegram.WebApp.close();
+        }
     });
 }
