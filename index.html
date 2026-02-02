@@ -76,6 +76,30 @@
             <button class="tab-btn" id="btn-tab-commandes" onclick="switchTab('commandes')">📋 Commandes</button>
         </div>
 
+        <div class="delivery-options">
+    <h3>Mode de récupération</h3>
+    <div class="option-toggle">
+        <label>
+            <input type="radio" name="delivery-mode" value="meetup" checked onclick="toggleDeliveryFields()"> 
+            📍 Meet-up
+        </label>
+        <label>
+            <input type="radio" name="delivery-mode" value="livraison" onclick="toggleDeliveryFields()"> 
+            🚚 Livraison
+        </label>
+    </div>
+
+    <div id="meetup-fields" class="sub-options">
+        <select id="meetup-location">
+            <option value="Poitiers Centre">Poitiers Centre</option>
+            <option value="Alentours (86)">Alentours (86)</option>
+        </select>
+    </div>
+
+    <div id="livraison-fields" class="sub-options" style="display:none;">
+        <input type="text" id="delivery-address" placeholder="Entre ton adresse complète...">
+    </div>
+</div>
         <div id="content-panier" class="tab-content active">
             <div id="cart-items-list">
                 <div class="empty-state">
