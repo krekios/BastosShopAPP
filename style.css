@@ -1,539 +1,108 @@
 :root {
-
     --bg-dark: #000000;
-
     --card-bg: rgba(28, 28, 30, 0.7);
-
     --accent-blue: #248bfe;
-
+    --accent-green: #2ecc71;
     --border: rgba(255, 255, 255, 0.1);
-
     --text-dim: #a0a0a0;
-
 }
-
-
 
 body {
-
     background-color: var(--bg-dark);
-
     background-image: url('ton-logo-en-filigrane.png');
-
     background-attachment: fixed;
-
     background-size: cover;
-
     color: white;
-
     margin: 0;
-
     font-family: -apple-system, system-ui, sans-serif;
-
     overflow-x: hidden;
-
 }
 
-
-
+/* --- STRUCTURE DES PAGES --- */
 .page { display: none; padding: 20px 15px 120px; min-height: 100vh; box-sizing: border-box; }
-
 .page.active { display: block; animation: fadeIn 0.3s ease; }
-
-
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-
-
+/* --- HEADER & FILTRES --- */
 .main-header { text-align: center; margin-bottom: 20px; }
-
 .main-logo-img { width: 180px; margin: 10px auto; display: block; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
 
-
-
-.top-buttons { display: flex; gap: 10px; margin: 20px 0; }
-
-.top-buttons button {
-
-    flex: 1; background: var(--card-bg); border: 1px solid var(--border);
-
-    backdrop-filter: blur(15px); color: white; padding: 12px;
-
-    border-radius: 12px; font-weight: 600;
-
-}
-
-
-
-.product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; position: relative; z-index: 10; }
-
-.product-card {
-
-    background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border);
-
-    overflow: hidden; position: relative; backdrop-filter: blur(10px);
-
-    cursor: pointer;
-
-}
-
-.product-card img { width: 100%; height: 150px; object-fit: cover; }
-
-
-
-.badge {
-
-    position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6);
-
-    padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: bold;
-
-    border: 1px solid rgba(255,255,255,0.1); z-index: 2;
-
-}
-
-
-
-.detail-badge {
-
-    position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.7);
-
-    padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: bold;
-
-    border: 1px solid rgba(255,255,255,0.1); z-index: 5;
-
-}
-
-
-
-.product-info { padding: 12px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); }
-
-.product-info h3 { margin: 0; font-size: 14px; text-transform: uppercase; }
-
-.product-info p { margin: 4px 0 0; font-size: 11px; color: var(--text-dim); }
-
-
-
-/* Container principal de la barre */
-
-.bottom-nav-glass {
-
-    position: fixed;
-
-    bottom: 20px;
-
-    left: 5%;
-
-    right: 5%;
-
-    height: 70px;
-
-    background: rgba(25, 25, 25, 0.6); /* Couleur sombre semi-transparente */
-
-    backdrop-filter: blur(15px); /* Effet flou "Glassmorphism" */
-
-    -webkit-backdrop-filter: blur(15px);
-
-    border-radius: 40px;
-
-    border: 1px solid rgba(255, 255, 255, 0.1);
-
-    display: flex;
-
-    justify-content: space-around;
-
-    align-items: center;
-
-    padding: 0 10px;
-
-    z-index: 1000;
-
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-
-}
-
-
-
-/* Style de chaque bouton */
-
-.nav-item {
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    color: #888;
-
-    transition: all 0.3s ease;
-
-    position: relative;
-
-    width: 22%;
-
-    height: 80%;
-
-    cursor: pointer;
-
-    text-decoration: none;
-
-}
-
-
-
-/* L'icône SVG */
-
-.nav-icon svg {
-
-    width: 22px;
-
-    height: 22px;
-
-    margin-bottom: 4px;
-
-}
-
-
-
-.nav-item span {
-
-    font-size: 11px;
-
-    font-weight: 500;
-
-}
-
-
-
-/* L'EFFET LIQUIDE (L'ovale brillant quand c'est actif) */
-
-.nav-item.active {
-
-    color: #fff;
-
-}
-
-
-
-.nav-item.active::before {
-
-    content: "";
-
-    position: absolute;
-
-    top: 50%;
-
-    left: 50%;
-
-    transform: translate(-50%, -50%);
-
-    width: 100%;
-
-    height: 100%;
-
-    background: rgba(255, 255, 255, 0.1);
-
-    border: 1px solid rgba(255, 255, 255, 0.4);
-
-    border-radius: 30px;
-
-    z-index: -1;
-
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-
-}
-
-
-
-.product-detail-view {
-
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-
-    background: #000; z-index: 4000; 
-
-    transform: translateY(100%);
-
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-
-    overflow-y: auto;
-
-    visibility: hidden;
-
-}
-
-.product-detail-view.active { transform: translateY(0); visibility: visible; }
-
-
-
-.detail-header { 
-
-    padding: 10px 15px; 
-
-    display: flex; 
-
-    align-items: center; 
-
-    justify-content: space-between; /* Force le bouton à gauche et le logo à droite */
-
-    position: sticky; 
-
-    top: 0; 
-
-    z-index: 10; 
-
-    background: rgba(0, 0, 0, 0.8); /* Fond semi-transparent pour la lisibilité */
-
-    backdrop-filter: blur(10px);
-
-}
-
-
-
-.mini-logo-header { 
-
-    height: 35px; /* On fixe une petite hauteur */
-
-    width: auto;  /* Garde les proportions */
-
-    object-fit: contain;
-
-    filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
-
-}
-
-
-
-.back-btn { 
-
-    background: rgba(255,255,255,0.1); 
-
-    border: 1px solid var(--border); 
-
-    color: white; 
-
-    padding: 6px 12px; 
-
-    border-radius: 20px; 
-
-    font-size: 13px;
-
-    cursor: pointer; 
-
-}
-
-.detail-card { width: 92%; margin: 10px auto 120px; background: rgba(20, 20, 20, 0.95); border-radius: 30px; border: 1px solid var(--border); overflow: hidden; }
-
-.media-container { position: relative; width: 100%; aspect-ratio: 1/1; background: #111; }
-
-#detail-video, #detail-img { width: 100%; height: 100%; object-fit: cover; }
-
-
-
-.centered { padding: 20px; text-align: left; }
-
-.farm-name { color: var(--accent-blue); font-size: 18px; margin: 5px 0; font-weight: bold; }
-
-.description { color: var(--text-dim); font-size: 13px; text-transform: uppercase; }
-
-
-
-.price-grid-compact { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px 20px 20px; }
-
-.price-grid-compact button { background: #1c1c1e; border: 1px solid #2c2c2e; border-radius: 18px; padding: 14px; color: white; font-size: 14px; font-weight: bold; }
-
-.separator-line { height: 1px; background: var(--border); margin: 0 20px 0px; }
-
-
-
-/* --- BOUTONS ARTICLES / COMMANDES --- */
-
-.tab-container {
-
-    display: flex;
-
-    justify-content: center;
-
-    gap: 15px;
-
-    margin: 20px 0;
-
-    padding: 0 10px;
-
-}
-
-
-
-.tab-btn {
-
-    flex: 1;
-
-    max-width: 160px;
-
-    padding: 15px 5px;
-
-    background: #000000;
-
-    color: #ffffff;
-
-    border: 2px solid #ffffff;
-
-    border-radius: 15px;
-
-    font-weight: bold;
-
-    font-size: 14px;
-
-    text-transform: uppercase;
-
-    cursor: pointer;
-
-    transition: all 0.2s ease;
-
-    opacity: 0.5;
-
-}
-
-
-
-.tab-btn.active {
-
-    opacity: 1;
-
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-
-}
-
-
-
-.tab-btn:active { transform: scale(0.95); }
-
-
-
-.tab-content { display: none; }
-
-.tab-content.active { display: block; }
-
-/* --- STYLES PAGE INFOS --- */
-
-.info-block {
-
-    background: var(--card-bg);
-
-    padding: 20px;
-
-    border-radius: 20px;
-
-    border: 1px solid var(--border);
-
-    margin-bottom: 15px;
-
-    backdrop-filter: blur(10px);
-
-}
-
-
-
-.info-title {
-
-    color: var(--accent-blue);
-
-    margin: 0 0 10px 0;
-
-    font-size: 18px;
-
-    text-transform: uppercase;
-
-    letter-spacing: 1px;
-
-}
-
-
-
-.info-subtitle {
-
-    font-size: 14px;
-
-    font-weight: bold;
-
-    margin-bottom: 10px;
-
-    opacity: 0.9;
-
-}
-
-
-
-.schedule-grid {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 8px;
-
-}
-
-
-
-.schedule-row {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    font-size: 13px;
-
-    padding-bottom: 5px;
-
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-
-}
-
-
-
-.status-closed {
-
-    color: #ff453a;
-
-    font-weight: bold;
-
-}
-
-.filter-container {
-
-    display: flex;
-
-    gap: 10px;
-
-    padding: 15px;
-
-    justify-content: center;
-
-}
-
-
-
+.filter-container { display: flex; gap: 10px; padding: 15px; justify-content: center; }
 .filter-container select {
-
-    background: #1a1a1a;
-
-    color: white;
-
-    border: 1px solid #333;
-
-    padding: 8px 12px;
-
-    border-radius: 10px;
-
-    font-size: 14px;
-
-    outline: none;
-
-    flex: 1; /* Pour qu'ils prennent la même largeur */
-
-    max-width: 150px;
-
+    background: #1a1a1a; color: white; border: 1px solid #333;
+    padding: 8px 12px; border-radius: 10px; font-size: 14px;
+    outline: none; flex: 1; max-width: 150px;
 }
+
+/* --- GRILLE DE PRODUITS --- */
+.product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; position: relative; z-index: 10; }
+.product-card {
+    background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border);
+    overflow: hidden; position: relative; backdrop-filter: blur(10px); cursor: pointer;
+}
+.product-card img { width: 100%; height: 150px; object-fit: cover; }
+.badge {
+    position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6);
+    padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: bold;
+    border: 1px solid rgba(255,255,255,0.1); z-index: 2;
+}
+
+/* --- BARRE DE NAVIGATION (LIQUID GLASS) --- */
+.bottom-nav-glass {
+    position: fixed; bottom: 20px; left: 5%; right: 5%; height: 70px;
+    background: rgba(25, 25, 25, 0.6); backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px); border-radius: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.1); display: flex;
+    justify-content: space-around; align-items: center; z-index: 1000;
+}
+.nav-item {
+    display: flex; flex-direction: column; align-items: center; 
+    color: #888; transition: all 0.3s ease; position: relative; width: 22%;
+}
+.nav-icon svg { width: 22px; height: 22px; margin-bottom: 4px; }
+.nav-item span { font-size: 11px; font-weight: 500; }
+.nav-item.active { color: #fff; }
+.nav-item.active::before {
+    content: ""; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 100%; height: 100%; background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 30px; z-index: -1;
+}
+
+/* --- TUNNEL DE COMMANDE (PANIER STEP 1 & 2) --- */
+.delivery-options {
+    background: rgba(255, 255, 255, 0.05); padding: 20px;
+    border-radius: 20px; border: 1px solid var(--border); margin-top: 10px;
+}
+
+.option-toggle { display: flex; gap: 12px; margin-bottom: 20px; }
+.radio-card { flex: 1; cursor: pointer; }
+.radio-card input { display: none; }
+.radio-card .card-content {
+    background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);
+    padding: 15px; border-radius: 15px; text-align: center; transition: 0.3s;
+}
+.radio-card input:checked + .card-content {
+    background: rgba(255, 255, 255, 0.15); border-color: #fff;
+}
+
+.sub-options select, .sub-options textarea {
+    width: 100%; padding: 12px; border-radius: 12px; background: #1a1a1a;
+    border: 1px solid #333; color: white; font-family: inherit;
+}
+
+.btn-primary, .btn-success {
+    width: 100%; padding: 16px; border-radius: 16px; border: none;
+    font-weight: bold; font-size: 15px; cursor: pointer; transition: 0.2s;
+}
+.btn-primary { background: #fff; color: #000; }
+.btn-success { background: var(--accent-green); color: #fff; }
+.btn-primary:active, .btn-success:active { transform: scale(0.98); }
+
+/* --- DÉTAILS PRODUIT --- */
+.product-detail-view {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #000; z-index: 4000; transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow-y: auto; visibility: hidden;
+}
+.product-detail-view.active { transform: translateY(0); visibility: visible; }
