@@ -12,11 +12,13 @@
     <div id="page-menu" class="page active">
         <header class="main-header">
             <img src="IMG_1178.PNG" class="main-logo-img">
+            
             <div class="filter-container">
                 <select id="farm-filter" onchange="filterProducts()">
                     <option value="all">Toutes les Farms</option>
                     <option value="KGF">KGF</option>
                 </select>
+
                 <select id="category-filter" onchange="filterProducts()">
                     <option value="all">Toutes les Catégories</option>
                     <option value="hash">Hash</option>
@@ -27,13 +29,12 @@
         </header>
       
         <div class="product-grid">
-            <div class="product-card" data-farm="KGF" data-category="hash" onclick="openProduct('Trap Grapez 🍇', 'KGF 🦊', 'FROZEN SIFT 🇲🇦', 'https://i.imgur.com/MbC46Y0.mp4', '90u.', false)">
-                <div class="badge">FROZEN SIFT 🇲🇦</div>
+            <div class="product-card" data-farm="KGF" data-category="hash" onclick="openProduct('Trap Grapez 🍇', 'KGF 🦊', 'FROZEN SIFT 90u 🇲🇦', 'https://ton-image-produit.jpg', 'Qualité supérieure 90u.', false)">
+                <div class="badge">FROZEN SIFT 90u 🇲🇦</div>
                 <img src="https://ton-image-produit.jpg" alt="Trap Grapez"> 
                 <div class="product-info">
                     <h3>Trap Grapez 🍇</h3>
-                    <p>KGF 🦊 | <b>90u</b></p>
-                </div>
+                    <p>KGF 🦊 | <b>90u</b></p> </div>
             </div>
         </div>
     </div>
@@ -43,18 +44,22 @@
             <button class="back-btn" onclick="closeProduct()">❮ Retour</button>
             <img src="IMG_1178.PNG" alt="Logo" class="mini-logo-header">
         </div>
+        
         <div class="detail-card">
             <div class="media-container">
-                <div class="detail-badge" id="detail-tag">FROZEN SIFT 🇲🇦</div>
+                <div class="detail-badge" id="detail-tag">FROZEN SIFT 90u 🇲🇦</div>
                 <video id="detail-video" autoplay loop muted playsinline></video>
                 <img id="detail-img" src="" alt="Produit">
             </div>
+
             <div class="text-section centered">
                 <h2 id="detail-title">---</h2>
                 <p id="detail-farm" class="farm-name">---</p>
                 <p id="detail-desc" class="description">---</p>
             </div>
+
             <div class="separator-line"></div>
+
             <div class="cart-section">
                 <div class="cart-title-row">
                     <span style="padding-left: 20px; font-weight: bold; font-size: 12px; opacity: 0.8;">AJOUTER AU PANIER</span>
@@ -64,55 +69,32 @@
         </div>
     </div>
 
-    <div id="page-panier" class="page">
-        <h1 class="page-title">Mon Panier</h1>
-        <div id="content-commandes" class="tab-content">
-            <div class="empty-state">
-                <p style="opacity: 0.5;">Aucune commande en cours.</p>
-            </div>
+   <nav class="bottom-nav-glass">
+    <div class="nav-item active" onclick="showPage('page-menu', this)">
+        <div class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
         </div>
+        <span>Menu</span>
     </div>
-
-    <div id="page-avis" class="page">
-        <h1 class="page-title">Avis Clients</h1>
-        <div class="review-list"><div class="review-card"></div></div>
-        <button class="btn-avis" style="margin-top: 20px; width: 100%; padding: 15px; border-radius: 12px; border: 1px solid var(--border); background: var(--card-bg); color: white;">📝 Laisser un avis</button>
+    <div class="nav-item" onclick="showPage('page-panier', this)">
+        <div class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        </div>
+        <span>Panier</span>
     </div>
-
-    <div id="page-infos" class="page">
-        <h1 class="page-title">Informations</h1>
-        <div class="info-block">
-            <h3 class="info-title">📍 Meet-up</h3>
-            <div class="schedule-grid">
-                <div class="schedule-row"><span>Lun - Ven</span> <span>11h - 22h</span></div>
-                <div class="schedule-row"><span>Samedi</span> <span>12h - 23h</span></div>
-                <div class="schedule-row"><span>Dimanche</span> <span class="status-closed">Fermé</span></div>
-            </div>
+    <div class="nav-item" onclick="showPage('page-avis', this)">
+        <div class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
         </div>
-        <div class="info-block">
-            <h3 class="info-title">🚚 Livraison</h3>
-            <p>Disponible dans <strong>tout le 86</strong>.</p>
-        </div>
+        <span>Avis</span>
     </div>
-
-    <nav class="bottom-nav-glass">
-        <div class="nav-item active" onclick="showPage('page-menu', this)">
-            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></div>
-            <span>Menu</span>
+    <div class="nav-item" onclick="showPage('page-infos', this)">
+        <div class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
         </div>
-        <div class="nav-item" onclick="showPage('page-panier', this)">
-            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div>
-            <span>Panier</span>
-        </div>
-        <div class="nav-item" onclick="showPage('page-avis', this)">
-            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></div>
-            <span>Avis</span>
-        </div>
-        <div class="nav-item" onclick="showPage('page-infos', this)">
-            <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></div>
-            <span>Infos</span>
-        </div>
-    </nav>
+        <span>Infos</span>
+    </div>
+</nav>
 
     <script src="script.js"></script>
     <script>
@@ -122,3 +104,4 @@
     </script>
 </body>
 </html>
+
