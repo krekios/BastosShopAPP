@@ -69,25 +69,51 @@
         </div>
     </div>
 
-    <div id="page-panier" class="page">
-        <h1 class="page-title">Mon Panier</h1>
-        <div class="tab-container">
-            <button class="tab-btn active" id="btn-tab-panier" onclick="switchTab('panier')">🛒 Articles</button>
-            <button class="tab-btn" id="btn-tab-commandes" onclick="switchTab('commandes')">📋 Commandes</button>
+    <div id="content-panier" class="tab-content active">
+    <div id="step-1-cart">
+        <div id="cart-items-list">
+            </div>
+        <div id="cart-footer-btn" style="padding: 20px;">
+            <button class="btn-primary" onclick="goToStep2()">Valider mon panier ➔</button>
         </div>
-
-        <div class="delivery-options">
-    <h3>Mode de récupération</h3>
-    <div class="option-toggle">
-        <label>
-            <input type="radio" name="delivery-mode" value="meetup" checked onclick="toggleDeliveryFields()"> 
-            📍 Meet-up
-        </label>
-        <label>
-            <input type="radio" name="delivery-mode" value="livraison" onclick="toggleDeliveryFields()"> 
-            🚚 Livraison
-        </label>
     </div>
+
+    <div id="step-2-delivery" style="display: none; padding: 15px;">
+        <button class="back-link" onclick="goToStep1()">❮ Modifier mon panier</button>
+        
+        <div class="delivery-options">
+            <h3 style="margin-bottom: 15px;">Comment récupérer ta commande ?</h3>
+            
+            <div class="option-toggle">
+                <label class="radio-card">
+                    <input type="radio" name="delivery-mode" value="meetup" checked onclick="toggleDeliveryFields()">
+                    <div class="card-content">📍 Meet-up</div>
+                </label>
+                <label class="radio-card">
+                    <input type="radio" name="delivery-mode" value="livraison" onclick="toggleDeliveryFields()">
+                    <div class="card-content">🚚 Livraison</div>
+                </label>
+            </div>
+
+            <div id="meetup-fields" class="sub-options">
+                <p style="font-size: 12px; margin-bottom: 5px; opacity: 0.7;">Choisis ton lieu :</p>
+                <select id="meetup-location">
+                    <option value="Poitiers Centre">Poitiers Centre</option>
+                    <option value="Alentours (86)">Alentours (86)</option>
+                </select>
+            </div>
+
+            <div id="livraison-fields" class="sub-options" style="display:none;">
+                <p style="font-size: 12px; margin-bottom: 5px; opacity: 0.7;">Adresse précise :</p>
+                <textarea id="delivery-address" placeholder="Rue, Code Postal, Ville, Appt..."></textarea>
+            </div>
+
+            <button class="btn-success" onclick="finaliserCommande()" style="margin-top: 20px; width: 100%;">
+                Confirmer la commande 🚀
+            </button>
+        </div>
+    </div>
+</div>
 
     <div id="meetup-fields" class="sub-options">
         <select id="meetup-location">
