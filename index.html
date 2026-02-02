@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bastos Shop </title>
+    <title>Bastos Shop</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -12,30 +12,24 @@
     <div id="page-menu" class="page active">
         <header class="main-header">
             <img src="IMG_1178.PNG" class="main-logo-img">
-            <div class="top-buttons">
-                <button onclick="window.Telegram?.WebApp?.showAlert('Farms bientôt disponibles')">Farms</button>
-                <button onclick="window.Telegram?.WebApp?.showAlert('Filtres bientôt disponibles')">Catégories</button>
+            
+            <div class="filter-container">
+                <select id="farm-filter" onchange="filterProducts()">
+                    <option value="all">Toutes les Farms</option>
+                    <option value="KGF">KGF</option>
+                </select>
+
+                <select id="category-filter" onchange="filterProducts()">
+                    <option value="all">Toutes les Catégories</option>
+                    <option value="hash">Hash</option>
+                    <option value="tabac">Tabac</option>
+                    <option value="weed">Weed</option>
+                </select>
             </div>
         </header>
       
-        <div class="filter-container">
-    <select id="farm-filter" onchange="filterProducts()">
-        <option value="all">Toutes les Farms</option>
-        <option value="KGF">KGF</option>
-    </select>
-
-    <select id="category-filter" onchange="filterProducts()">
-        <option value="all">Toutes les Catégories</option>
-        <option value="hash">Hash</option>
-        <option value="tabac">Tabac</option>
-        <option value="weed">Weed</option>
- 
-    </select>
-</div>
         <div class="product-grid">
-         <div class="product-card" data-farm="KGF" data-category="hash" onclick="...">
-    ...
-</div>
+            <div class="product-card" data-farm="KGF" data-category="hash" onclick="openProduct('Trap Grapez 90u 🍇', 'KGF 🦊', 'FROZEN SIFT 🇲🇦', 'https://ton-image-produit.jpg', 'Ta description ici...', false)">
                 <div class="badge">FROZEN SIFT 🇲🇦</div>
                 <img src="https://ton-image-produit.jpg" alt="Trap Grapez"> 
                 <div class="product-info">
@@ -43,7 +37,7 @@
                     <p>KGF 🦊</p>
                 </div>
             </div>
-        </div>
+            </div>
     </div>
 
     <div id="product-detail-page" class="product-detail-view">
@@ -104,36 +98,36 @@
         <h1 class="page-title">Avis Clients</h1>
         <div class="review-list">
             <div class="review-card">
-            </div>
+                </div>
         </div>
         <button class="btn-avis" style="margin-top: 20px; width: 100%; padding: 15px; border-radius: 12px; border: 1px solid var(--border); background: var(--card-bg); color: white;">📝 Laisser un avis</button>
     </div>
 
-   <div id="page-infos" class="page">
-    <h1 class="page-title">Informations</h1>
+    <div id="page-infos" class="page">
+        <h1 class="page-title">Informations</h1>
 
-    <div class="info-block">
-        <h3 class="info-title">📍 Meet-up</h3>
-        <p class="info-subtitle">Horaires d'ouverture :</p>
-        <div class="schedule-grid">
-            <div class="schedule-row"><span>Lundi - Vendredi</span> <span>11h00 - 22h00</span></div>
-            <div class="schedule-row"><span>Samedi</span> <span>12h00 - 23h00</span></div>
-            <div class="schedule-row"><span>Dimanche</span> <span class="status-closed">Fermé</span></div>
+        <div class="info-block">
+            <h3 class="info-title">📍 Meet-up</h3>
+            <p class="info-subtitle">Horaires d'ouverture :</p>
+            <div class="schedule-grid">
+                <div class="schedule-row"><span>Lundi - Vendredi</span> <span>11h00 - 22h00</span></div>
+                <div class="schedule-row"><span>Samedi</span> <span>12h00 - 23h00</span></div>
+                <div class="schedule-row"><span>Dimanche</span> <span class="status-closed">Fermé</span></div>
+            </div>
+        </div>
+
+        <div class="info-block">
+            <h3 class="info-title">🚚 Livraison</h3>
+            <p style="margin: 10px 0; line-height: 1.5;">
+                Livraison disponible dans <strong>tout le 86</strong>.<br>
+                <span style="color: var(--text-dim); font-size: 13px;">⚠️ Le prix varie en fonction de la distance.</span>
+            </p>
+            <div class="separator-line" style="margin: 15px 0 10px 0;"></div>
+            <p style="font-size: 11px; opacity: 0.6; text-align: center;">
+                Contactez le support pour une estimation précise.
+            </p>
         </div>
     </div>
-
-    <div class="info-block">
-        <h3 class="info-title">🚚 Livraison</h3>
-        <p style="margin: 10px 0; line-height: 1.5;">
-            Livraison disponible dans <strong>tout le 86</strong>.<br>
-            <span style="color: var(--text-dim); font-size: 13px;">⚠️ Le prix varie en fonction de la distance.</span>
-        </p>
-        <div class="separator-line" style="margin: 15px 0 10px 0;"></div>
-        <p style="font-size: 11px; opacity: 0.6; text-align: center;">
-            Contactez le support pour une estimation précise.
-        </p>
-    </div>
-</div>
 
     <nav class="bottom-nav">
         <div class="nav-item active" onclick="showPage('page-menu', this)"><i>🏠</i><span>Menu</span></div>
