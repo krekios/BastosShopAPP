@@ -88,3 +88,42 @@ body {
 }
 .nav-item i { font-size: 20px; margin-bottom: 4px; font-style: normal; }
 .nav-item span { font-size: 10px; font-weight: 500; }
+/* Container des onglets */
+.tab-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Style du bouton actif (Bleu comme sur ta capture) */
+.tab-btn.active {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+    box-shadow: 0 4px 15px rgba(36, 139, 254, 0.4);
+}
+
+/* Gestion de l'affichage des contenus */
+.tab-content { display: none; text-align: center; padding-top: 50px; }
+.tab-content.active { display: block; animation: fadeIn 0.3s; }
+
+.duck-icon {
+    font-size: 80px;
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    font-size: 16px;
+    color: var(--text-dim);
+}
