@@ -146,3 +146,29 @@ function filterProducts() {
         }
     });
 }
+// Affiche/Masque les champs selon le choix
+function toggleDeliveryFields() {
+    const mode = document.querySelector('input[name="delivery-mode"]:checked').value;
+    document.getElementById('meetup-fields').style.display = (mode === 'meetup') ? 'block' : 'none';
+    document.getElementById('livraison-fields').style.display = (mode === 'livraison') ? 'block' : 'none';
+}
+
+// Modifie ta fonction d'envoi de commande pour inclure ces infos
+function finaliserCommande() {
+    const mode = document.querySelector('input[name="delivery-mode"]:checked').value;
+    let detailLivraison = "";
+
+    if (mode === 'meetup') {
+        detailLivraison = "📍 Meet-up : " + document.getElementById('meetup-location').value;
+    } else {
+        detailLivraison = "🚚 Livraison à : " + document.getElementById('delivery-address').value;
+    }
+
+    const data = {
+        recapitulatif: "Ton texte du panier ici...", // Récupère ton panier existant
+        livraison: detailLivraison,
+        total: document.getElementById('cart-total-price').innerText
+    };
+
+    window.Telegram.WebApp.sendData(JSON.stringify(data));
+}
