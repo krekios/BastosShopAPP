@@ -1,36 +1,24 @@
+let cart = [];
+let currentProduct = {}; 
+
+// 1. NAVIGATION PRINCIPALE
 function showPage(pageId, element) {
-    // 1. On cache toutes les pages
-    const pages = document.querySelectorAll('.page');
-    pages.forEach(page => {
-        page.classList.remove('active');
-    });
-
-    // 2. On affiche la page sur laquelle on a cliqué
+    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
     const targetPage = document.getElementById(pageId);
-    if (targetPage) {
-        targetPage.classList.add('active');
-    }
+    if (targetPage) targetPage.classList.add('active');
 
-    // 3. On retire le style "actif" de tous les boutons de navigation
-    const navItems = document.querySelectorAll('.nav-item');
-    navItems.forEach(item => {
-        item.classList.remove('active');
-    });
-
-    // 4. On ajoute le style "actif" au bouton cliqué
+    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
     element.classList.add('active');
     
-    // Optionnel : fait vibrer légèrement le téléphone (si sur Telegram)
-    if (window.Telegram && window.Telegram.WebApp) {
+    if (window.Telegram?.WebApp) {
         window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
     }
 }
+
+// 2. ONGLETS PANIER / COMMANDES
 function switchTab(tabName) {
-    // 1. Gérer les boutons
     document.getElementById('btn-tab-panier').classList.remove('active');
     document.getElementById('btn-tab-commandes').classList.remove('active');
-    
-    // 2. Gérer les contenus
     document.getElementById('content-panier').classList.remove('active');
     document.getElementById('content-commandes').classList.remove('active');
 
@@ -42,26 +30,20 @@ function switchTab(tabName) {
         document.getElementById('content-commandes').classList.add('active');
     }
 
-    // Petit retour haptique pour le feeling "App"
-    if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.HapticFeedback.selectionChanged();
-    }
+    window.Telegram?.WebApp?.HapticFeedback.selectionChanged();
 }
-let cart = [];
 
+// 3. LOGIQUE DU PANIER (Avec calcul du total)
 function addToCart(name, price) {
     cart.push({ name: name, price: price });
     updateCartUI();
-    
-    // Notification Telegram
-    if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
-    }
+    window.Telegram?.WebApp?.HapticFeedback.notificationOccurred('success');
 }
 
 function updateCartUI() {
     const list = document.getElementById('cart-items-list');
     const footer = document.getElementById('cart-footer');
+    let total = 0; // Ajout du calcul du total
     
     if (cart.length === 0) {
         list.innerHTML = '<div class="empty-state"><div class="duck-icon">🐥</div><p>Votre panier est vide</p></div>';
@@ -70,16 +52,23 @@ function updateCartUI() {
     }
 
     footer.style.display = 'block';
-    list.innerHTML = ''; // On vide pour reconstruire
+    list.innerHTML = ''; 
     
     cart.forEach((item, index) => {
+        total += item.price;
         list.innerHTML += `
             <div class="cart-item">
-                <span>${item.name}</span>
-                <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff453a;">Supprimer</button>
+                <div class="item-info">
+                    <span class="item-name">${item.name}</span>
+                    <span class="item-price">${item.price}€</span>
+                </div>
+                <button onclick="removeItem(${index})" class="delete-btn">Supprimer</button>
             </div>
         `;
     });
+
+    // On met à jour le texte du bouton avec le total
+    footer.innerHTML = `<button class="tab-btn active" style="width:100%" onclick="validerCommande()">Valider la commande (${total}€)</button>`;
 }
 
 function removeItem(index) {
@@ -87,15 +76,7 @@ function removeItem(index) {
     updateCartUI();
 }
 
-function validerCommande() {
-    let message = "Nouvelle commande :\n";
-    cart.forEach(item => message += "- " + item.name + "\n");
-    
-    alert("Commande envoyée ! \n" + message);
-    // Ici on pourra plus tard envoyer un message direct au bot
-}
-let currentProduct = {}; // Pour stocker le produit ouvert
-
+// 4. OUVERTURE PRODUIT (Optimisé pour la vidéo)
 function openProduct(name, farm, tag, mediaUrl, desc, isVideo = false) {
     currentProduct = { name, farm };
     
@@ -109,15 +90,19 @@ function openProduct(name, farm, tag, mediaUrl, desc, isVideo = false) {
 
     if(isVideo) {
         vNode.style.display = "block";
-        vNode.src = mediaUrl;
+        vNode.querySelector('source').src = mediaUrl; // Correct pour changer la source
+        vNode.load(); // Indispensable pour que la vidéo se recharge
+        vNode.play();
         iNode.style.display = "none";
     } else {
         vNode.style.display = "none";
+        vNode.pause();
         iNode.style.display = "block";
         iNode.src = mediaUrl;
     }
 
-    // On génère tes boutons de prix spécifiques
+    // Ici on pourra plus tard personnaliser les tarifs par produit
+    // Pour l'instant on garde tes tarifs par défaut
     const grid = document.getElementById('price-grid-dynamic');
     const tarifs = [
         {p: '1g', v: 20}, {p: '2g', v: 30}, {p: '5g', v: 60},
@@ -134,17 +119,29 @@ function openProduct(name, farm, tag, mediaUrl, desc, isVideo = false) {
 
 function closeProduct() {
     document.getElementById('product-detail-page').classList.remove('active');
+    document.getElementById('detail-video').pause(); // On coupe le son/vidéo en fermant
 }
 
 function addToCartDetailed(poids, prix) {
     const productName = `${currentProduct.name} (${poids})`;
-    addToCart(productName, prix); // On réutilise ta fonction de panier
-    
-    // Optionnel : fermer la page après l'ajout
+    addToCart(productName, prix);
     closeProduct();
     
-    // Petit message de succès
-    if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.showAlert(`Ajouté : ${productName} au panier !`);
+    if (window.Telegram?.WebApp) {
+        window.Telegram.WebApp.showAlert(`Ajouté : ${productName}`);
     }
+}
+
+function validerCommande() {
+    if(cart.length === 0) return;
+    let message = "Salut ! Je souhaite commander :\n\n";
+    let total = 0;
+    cart.forEach(item => {
+        message += `• ${item.name} - ${item.price}€\n`;
+        total += item.price;
+    });
+    message += `\nTotal : ${total}€`;
+    
+    // Pour l'instant on affiche, mais on pourra envoyer au bot après
+    alert(message);
 }
