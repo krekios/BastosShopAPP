@@ -1,130 +1,172 @@
 let cart = [];
-let currentProduct = {}; 
+let currentSelection = null; 
+const tele = window.Telegram.WebApp;
+tele.expand();
 
-function showPage(pageId, element) {
-    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+// Navigation Pages
+function showPage(pageId, navEl) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
-    
-    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-    element.classList.add('active');
-    
-    window.Telegram?.WebApp?.HapticFeedback.impactOccurred('light');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    navEl.classList.add('active');
 }
 
-function openProduct(name, farm, tag, mediaUrl, desc, isVideo = false) {
-    currentProduct = { name, farm };
-    
+// Navigation Onglets Panier
+function switchTab(tabName) {
+    document.getElementById('content-panier').style.display = (tabName === 'panier') ? 'block' : 'none';
+    document.getElementById('content-commandes').style.display = (tabName === 'commandes') ? 'block' : 'none';
+    document.getElementById('btn-tab-panier').classList.toggle('active', tabName === 'panier');
+    document.getElementById('btn-tab-commandes').classList.toggle('active', tabName === 'commandes');
+}
+
+// Ouverture Produit
+function openProduct(name, farm, tag, video, desc, prices) {
+    currentSelection = null;
+    const addBtn = document.getElementById('btn-add-cart');
+    addBtn.disabled = true;
+    addBtn.innerText = "Sélectionnez une quantité";
+    addBtn.style.background = "#2c2c2e"; 
+
     document.getElementById('detail-title').innerText = name;
     document.getElementById('detail-farm').innerText = farm;
     document.getElementById('detail-tag').innerText = tag;
     document.getElementById('detail-desc').innerText = desc;
-
-    const vNode = document.getElementById('detail-video');
-    const iNode = document.getElementById('detail-img');
-
-    if(isVideo) {
-        iNode.style.display = "none";
-        vNode.style.display = "block";
-        vNode.src = mediaUrl; 
-        vNode.load(); 
-        vNode.play().catch(e => console.log("Auto-play blocked"));
-    } else {
-        vNode.style.display = "none";
-        iNode.style.display = "block";
-        iNode.src = mediaUrl;
+    document.getElementById('detail-video').src = video;
+    
+    const grid = document.getElementById('weight-selector');
+    grid.innerHTML = '';
+    
+    for (const [weight, price] of Object.entries(prices)) {
+        const btn = document.createElement('button');
+        btn.className = 'weight-btn';
+        btn.innerHTML = `<span style="font-size:16px;">${weight}</span><br><span style="opacity:0.7; font-size:12px;">${price}€</span>`;
+        btn.onclick = () => selectWeight(btn, name, weight, price);
+        grid.appendChild(btn);
     }
-
-    const grid = document.getElementById('price-grid-dynamic');
-    const tarifs = [
-        {p: '2g', v: 30}, {p: '5g', v: 60}, 
-        {p: '10g', v: 110}, {p: '25g', v: 220}
-    ];
-
-    grid.innerHTML = "";
-    tarifs.forEach(t => {
-        grid.innerHTML += `<button onclick="addToCartDetailed('${t.p}', ${t.v})">${t.v}€ ${t.p}</button>`;
-    });
-
+    
     document.getElementById('product-detail-page').classList.add('active');
-    window.Telegram?.WebApp?.HapticFeedback.impactOccurred('medium');
+}
+
+// Sélection Poids
+function selectWeight(btnElement, productName, weight, price) {
+    document.querySelectorAll('.weight-btn').forEach(b => b.classList.remove('selected'));
+    btnElement.classList.add('selected');
+    
+    currentSelection = {
+        name: `${productName} (${weight})`,
+        price: price
+    };
+    
+    const addBtn = document.getElementById('btn-add-cart');
+    addBtn.disabled = false;
+    addBtn.style.background = "var(--accent-blue)";
+    addBtn.innerText = `Ajouter au panier - ${price}€`;
+    
+    tele.HapticFeedback.selectionChanged();
+}
+
+// Ajouter au panier
+function confirmAddToCart() {
+    if (currentSelection) {
+        cart.push(currentSelection);
+        updateCartUI();
+        closeProduct();
+        tele.HapticFeedback.notificationOccurred('success');
+    }
 }
 
 function closeProduct() {
     document.getElementById('product-detail-page').classList.remove('active');
-    document.getElementById('detail-video').pause();
 }
 
-function addToCartDetailed(poids, prix) {
-    const itemName = `${currentProduct.name} (${poids})`;
-    cart.push({ name: itemName, price: prix });
-    
-    window.Telegram?.WebApp?.HapticFeedback.notificationOccurred('success');
-    
-    updateCartUI();
-    closeProduct();
-    window.Telegram?.WebApp?.showAlert(`Ajouté : ${itemName}`);
-}
-
+// MISE À JOUR PANIER ET BADGE
 function updateCartUI() {
     const list = document.getElementById('cart-items-list');
-    const footer = document.getElementById('cart-footer');
-    let total = 0;
+    const btn = document.getElementById('btn-valider-panier');
+    const badge = document.getElementById('nav-cart-badge');
+
+    // Mise à jour du badge rouge
+    if (cart.length > 0) {
+        badge.style.display = 'flex';
+        badge.innerText = cart.length;
+    } else {
+        badge.style.display = 'none';
+    }
     
+    // Affichage liste
     if (cart.length === 0) {
-        list.innerHTML = '<div style="text-align:center; padding:50px; opacity:0.5;">Panier vide 🐥</div>';
-        footer.style.display = 'none';
+        list.innerHTML = '<div style="text-align:center; padding:50px; opacity:0.5;">Votre panier est vide 🐥<br><small>Allez voir nos pépites !</small></div>';
+        btn.style.display = 'none';
         return;
     }
 
-    footer.style.display = 'block';
-    list.innerHTML = ''; 
+    list.innerHTML = '';
+    let total = 0;
     cart.forEach((item, index) => {
         total += item.price;
         list.innerHTML += `
-            <div style="background:rgba(255,255,255,0.05); margin-bottom:10px; padding:15px; border-radius:15px; display:flex; justify-content:space-between; align-items:center;">
-                <div style="text-align: left;"><b>${item.name}</b><br><small>${item.price}€</small></div>
-                <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff453a; font-weight:bold;">Supprimer</button>
+            <div style="background:#2c2c2e; padding:15px; border-radius:15px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; border:1px solid rgba(255,255,255,0.1);">
+                <div>
+                    <b style="font-size:14px;">${item.name}</b><br>
+                    <span style="color:#0A84FF; font-weight:bold;">${item.price}€</span>
+                </div>
+                <button onclick="removeItem(${index})" style="color:#ff453a; background:rgba(255,69,58,0.1); padding:8px 12px; border-radius:10px; border:none; font-weight:bold; font-size:12px;">Supprimer</button>
             </div>`;
     });
-    footer.innerHTML = `<button onclick="validerCommande()" style="width:100%; padding:15px; border-radius:15px; background:#248bfe; color:white; border:none; font-weight:bold;">Commander (${total}€)</button>`;
+    
+    btn.style.display = 'block';
+    btn.innerText = `Commander (${total}€) ➔`;
 }
 
 function removeItem(index) {
     cart.splice(index, 1);
     updateCartUI();
+    tele.HapticFeedback.impactOccurred('light');
 }
 
-function validerCommande() {
-    if (cart.length === 0) return;
-    let total = 0;
+// Navigation Commande
+function goToStep2() {
+    document.getElementById('step-1-cart').style.display = 'none';
+    document.getElementById('step-2-delivery').style.display = 'block';
+}
+
+function goToStep1() {
+    document.getElementById('step-1-cart').style.display = 'block';
+    document.getElementById('step-2-delivery').style.display = 'none';
+}
+
+function toggleDeliveryFields() {
+    const mode = document.querySelector('input[name="delivery-mode"]:checked').value;
+    document.getElementById('meetup-fields').style.display = mode === 'meetup' ? 'block' : 'none';
+    document.getElementById('livraison-fields').style.display = mode === 'livraison' ? 'block' : 'none';
+}
+
+function finaliserCommande() {
+    const mode = document.querySelector('input[name="delivery-mode"]:checked').value;
+    const loc = mode === 'meetup' ? document.getElementById('meetup-location').value : document.getElementById('delivery-address').value;
+    
+    if (mode === 'livraison' && loc.trim().length < 5) {
+        tele.showAlert("Veuillez entrer une adresse valide.");
+        return;
+    }
+
     let recap = "";
-    cart.forEach(item => {
-        recap += `- ${item.name} : ${item.price}€\n`;
-        total += item.price;
+    let total = 0;
+    cart.forEach(i => {
+        recap += `- ${i.name} : ${i.price}€\n`;
+        total += i.price;
     });
-    const commandeData = {
-        items: cart,
-        total: total,
+
+    const data = {
         recapitulatif: recap,
-        date: new Date().toLocaleString('fr-FR')
+        total: total + "€",
+        mode: mode === 'meetup' ? "📍 Meet-up" : "🚚 Livraison",
+        adresse: loc
     };
-    window.Telegram.WebApp.showConfirm(`Confirmer la commande de ${total}€ ?`, (isConfirmed) => {
-        if (isConfirmed) {
-            window.Telegram.WebApp.sendData(JSON.stringify(commandeData));
+
+    tele.showConfirm(`Confirmer la commande de ${total}€ ?`, (confirm) => {
+        if(confirm) {
+            tele.sendData(JSON.stringify(data));
         }
     });
-}
-
-function switchTab(tabName) {
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-
-    if (tabName === 'panier') {
-        document.getElementById('btn-tab-panier').classList.add('active');
-        document.getElementById('content-panier').classList.add('active');
-    } else {
-        document.getElementById('btn-tab-commandes').classList.add('active');
-        document.getElementById('content-commandes').classList.add('active');
-    }
-    window.Telegram?.WebApp?.HapticFeedback.selectionChanged();
 }
