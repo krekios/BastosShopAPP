@@ -96,3 +96,47 @@ body {
 
 .detail-header { padding: 15px; position: sticky; top: 0; z-index: 10; background: linear-gradient(to bottom, black, transparent); }
 .back-btn {
+/* Centrage des textes */
+.centered {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Grille de prix compacte (3 colonnes) */
+.price-grid-compact {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding-bottom: 20px;
+}
+
+.price-grid-compact button {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 10px 4px;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    transition: transform 0.1s;
+}
+
+.price-grid-compact button:active {
+    transform: scale(0.95);
+    background: var(--accent-blue);
+}
+
+/* Fix Vidéo */
+#detail-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
+.media-container {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 1px solid var(--border);
+}
