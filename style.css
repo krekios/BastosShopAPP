@@ -8,58 +8,190 @@
 
 body {
     background-color: var(--bg-dark);
+    background-image: url('ton-logo-en-filigrane.png');
+    background-attachment: fixed;
+    background-size: cover;
     color: white;
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-    -webkit-font-smoothing: antialiased;
+    font-family: -apple-system, system-ui, sans-serif;
+    overflow-x: hidden;
 }
 
 .page { display: none; padding: 20px 15px 120px; min-height: 100vh; box-sizing: border-box; }
 .page.active { display: block; animation: fadeIn 0.3s ease; }
+
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* Header & Logo */
 .main-header { text-align: center; margin-bottom: 20px; }
 .main-logo-img { width: 180px; margin: 10px auto; display: block; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
 
-/* Grille de produits */
+.top-buttons { display: flex; gap: 10px; margin: 20px 0; }
+.top-buttons button {
+    flex: 1; background: var(--card-bg); border: 1px solid var(--border);
+    backdrop-filter: blur(15px); color: white; padding: 12px;
+    border-radius: 12px; font-weight: 600;
+}
+
 .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; position: relative; z-index: 10; }
 .product-card {
     background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border);
-    overflow: hidden; position: relative; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-    cursor: pointer; transition: transform 0.2s;
+    overflow: hidden; position: relative; backdrop-filter: blur(10px);
+    cursor: pointer;
 }
-.product-card:active { transform: scale(0.96); }
 .product-card img { width: 100%; height: 150px; object-fit: cover; }
 
-/* Badges */
-.badge, .detail-badge {
-    position: absolute; background: rgba(0,0,0,0.6);
+.badge {
+    position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6);
     padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: bold;
-    border: 1px solid var(--border); z-index: 5;
+    border: 1px solid rgba(255,255,255,0.1); z-index: 2;
 }
-.badge { top: 8px; right: 8px; }
-.detail-badge { top: 15px; right: 15px; }
 
-/* Bottom Nav Glass */
-.bottom-nav-glass {
-    position: fixed; bottom: 20px; left: 5%; right: 5%; height: 70px;
-    background: rgba(25, 25, 25, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    border-radius: 40px; border: 1px solid var(--border); display: flex;
-    justify-content: space-around; align-items: center; z-index: 1000;
+.detail-badge {
+    position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.7);
+    padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: bold;
+    border: 1px solid rgba(255,255,255,0.1); z-index: 5;
 }
-.nav-item { display: flex; flex-direction: column; align-items: center; color: #888; transition: 0.3s; width: 22%; cursor: pointer; }
-.nav-item.active { color: #fff; background: rgba(255, 255, 255, 0.1); border-radius: 30px; padding: 5px 0; }
-.nav-icon svg { width: 22px; height: 22px; margin-bottom: 4px; }
 
-/* Vue Détail */
+.product-info { padding: 12px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); }
+.product-info h3 { margin: 0; font-size: 14px; text-transform: uppercase; }
+.product-info p { margin: 4px 0 0; font-size: 11px; color: var(--text-dim); }
+
+.bottom-nav {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    width: 92%; background: rgba(30, 30, 30, 0.85); backdrop-filter: blur(20px);
+    border: 1px solid var(--border); border-radius: 40px;
+    display: flex; justify-content: space-around; padding: 8px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 3000;
+}
+.nav-item { display: flex; flex-direction: column; align-items: center; padding: 8px 15px; border-radius: 30px; opacity: 0.5; transition: 0.3s; cursor: pointer; }
+.nav-item.active { background: rgba(255,255,255,0.1); opacity: 1; }
+.nav-item i { font-size: 20px; margin-bottom: 4px; font-style: normal; }
+.nav-item span { font-size: 10px; font-weight: 500; }
+
 .product-detail-view {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 4000;
-    transform: translateY(100%); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); visibility: hidden; overflow-y: auto;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #000; z-index: 4000; 
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+    overflow-y: auto;
+    visibility: hidden;
 }
 .product-detail-view.active { transform: translateY(0); visibility: visible; }
 
-/* Styles spécifiques que tu avais */
-.info-block { background: var(--card-bg); padding: 20px; border-radius: 20px; border: 1px solid var(--border); margin-bottom: 15px; backdrop-filter: blur(10px); }
-.tab-btn { flex: 1; padding: 15px 5px; background: #000; color: #fff; border: 2px solid #fff; border-radius: 15px; font-weight: bold; text-transform: uppercase; opacity: 0.5; }
-.tab-btn.active { opacity: 1; }
+.detail-header { 
+    padding: 10px 15px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; /* Force le bouton à gauche et le logo à droite */
+    position: sticky; 
+    top: 0; 
+    z-index: 10; 
+    background: rgba(0, 0, 0, 0.8); /* Fond semi-transparent pour la lisibilité */
+    backdrop-filter: blur(10px);
+}
+
+.mini-logo-header { 
+    height: 35px; /* On fixe une petite hauteur */
+    width: auto;  /* Garde les proportions */
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
+}
+
+.back-btn { 
+    background: rgba(255,255,255,0.1); 
+    border: 1px solid var(--border); 
+    color: white; 
+    padding: 6px 12px; 
+    border-radius: 20px; 
+    font-size: 13px;
+    cursor: pointer; 
+}
+.detail-card { width: 92%; margin: 10px auto 120px; background: rgba(20, 20, 20, 0.95); border-radius: 30px; border: 1px solid var(--border); overflow: hidden; }
+.media-container { position: relative; width: 100%; aspect-ratio: 1/1; background: #111; }
+#detail-video, #detail-img { width: 100%; height: 100%; object-fit: cover; }
+
+.centered { padding: 20px; text-align: left; }
+.farm-name { color: var(--accent-blue); font-size: 18px; margin: 5px 0; font-weight: bold; }
+.description { color: var(--text-dim); font-size: 13px; text-transform: uppercase; }
+
+.price-grid-compact { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px 20px 20px; }
+.price-grid-compact button { background: #1c1c1e; border: 1px solid #2c2c2e; border-radius: 18px; padding: 14px; color: white; font-size: 14px; font-weight: bold; }
+.separator-line { height: 1px; background: var(--border); margin: 0 20px 0px; }
+
+/* --- BOUTONS ARTICLES / COMMANDES --- */
+.tab-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+    padding: 0 10px;
+}
+
+.tab-btn {
+    flex: 1;
+    max-width: 160px;
+    padding: 15px 5px;
+    background: #000000;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0.5;
+}
+
+.tab-btn.active {
+    opacity: 1;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.tab-btn:active { transform: scale(0.95); }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+/* --- STYLES PAGE INFOS --- */
+.info-block {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    margin-bottom: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.info-title {
+    color: var(--accent-blue);
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.info-subtitle {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    opacity: 0.9;
+}
+
+.schedule-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.schedule-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.status-closed {
+    color: #ff453a;
+    font-weight: bold;
+}
