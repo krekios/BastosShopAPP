@@ -1,178 +1,106 @@
-let cart = [];
-let currentProduct = {}; 
-let modeSelectionne = 'meetup'; // Par défaut
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bastos Shop</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
 
-// NAVIGATION PRINCIPALE
-function showPage(pageId, element) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
-    
-    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-    element.classList.add('active');
-}
+    <div id="page-menu" class="page active">
+        <header class="main-header">
+            <img src="IMG_1178.PNG" class="main-logo-img">
+            
+            <div class="filter-container">
+                <select id="farm-filter" onchange="filterProducts()">
+                    <option value="all">Toutes les Farms</option>
+                    <option value="KGF">KGF</option>
+                </select>
 
-// OUVERTURE PRODUIT
-function openProduct(name, farm, tag, mediaUrl, desc, isVideo = false) {
-    currentProduct = { name, farm };
-    
-    document.getElementById('detail-title').innerText = name;
-    document.getElementById('detail-farm').innerText = farm;
-    document.getElementById('detail-tag').innerText = tag;
-    document.getElementById('detail-desc').innerText = desc;
+                <select id="category-filter" onchange="filterProducts()">
+                    <option value="all">Toutes les Catégories</option>
+                    <option value="hash">Hash</option>
+                    <option value="tabac">Tabac</option>
+                    <option value="weed">Weed</option>
+                </select>
+            </div>
+        </header>
+      
+        <div class="product-grid">
+            <div class="product-card" data-farm="KGF" data-category="hash" onclick="openProduct('Trap Grapez 🍇', 'KGF 🦊', 'FROZEN SIFT 90u 🇲🇦', 'https://ton-image-produit.jpg', 'Qualité supérieure 90u.', false)">
+                <div class="badge">FROZEN SIFT 90u 🇲🇦</div>
+                <img src="https://ton-image-produit.jpg" alt="Trap Grapez"> 
+                <div class="product-info">
+                    <h3>Trap Grapez 🍇</h3>
+                    <p>KGF 🦊 | <b>90u</b></p> </div>
+            </div>
+        </div>
+    </div>
 
-    const vNode = document.getElementById('detail-video');
-    const iNode = document.getElementById('detail-img');
+    <div id="product-detail-page" class="product-detail-view">
+        <div class="detail-header">
+            <button class="back-btn" onclick="closeProduct()">❮ Retour</button>
+            <img src="IMG_1178.PNG" alt="Logo" class="mini-logo-header">
+        </div>
+        
+        <div class="detail-card">
+            <div class="media-container">
+                <div class="detail-badge" id="detail-tag">FROZEN SIFT 90u 🇲🇦</div>
+                <video id="detail-video" autoplay loop muted playsinline></video>
+                <img id="detail-img" src="" alt="Produit">
+            </div>
 
-    if(isVideo) {
-        iNode.style.display = "none";
-        vNode.style.display = "block";
-        vNode.src = mediaUrl; 
-        vNode.load(); 
-        vNode.play().catch(e => console.log("Auto-play blocked"));
-    } else {
-        vNode.style.display = "none";
-        iNode.style.display = "block";
-        iNode.src = mediaUrl;
-    }
+            <div class="text-section centered">
+                <h2 id="detail-title">---</h2>
+                <p id="detail-farm" class="farm-name">---</p>
+                <p id="detail-desc" class="description">---</p>
+            </div>
 
-    const grid = document.getElementById('price-grid-dynamic');
-    const tarifs = [
-        {p: '2g', v: 30}, {p: '5g', v: 60}, 
-        {p: '10g', v: 110}, {p: '25g', v: 220}
-    ];
+            <div class="separator-line"></div>
 
-    grid.innerHTML = "";
-    tarifs.forEach(t => {
-        grid.innerHTML += `<button onclick="addToCartDetailed('${t.p}', ${t.v})">${t.v}€ ${t.p}</button>`;
-    });
+            <div class="cart-section">
+                <div class="cart-title-row">
+                    <span style="padding-left: 20px; font-weight: bold; font-size: 12px; opacity: 0.8;">AJOUTER AU PANIER</span>
+                </div>
+                <div id="price-grid-dynamic" class="price-grid-compact"></div>
+            </div>
+        </div>
+    </div>
 
-    document.getElementById('product-detail-page').classList.add('active');
-    window.Telegram?.WebApp?.HapticFeedback.impactOccurred('medium');
-}
+   <nav class="bottom-nav-glass">
+    <div class="nav-item active" onclick="showPage('page-menu', this)">
+        <div class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        </div>
+        <span>Menu</span>
+    </div>
+    <div class="nav-item" onclick="showPage('page-panier', this)">
+        <div class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        </div>
+        <span>Panier</span>
+    </div>
+    <div class="nav-item" onclick="showPage('page-avis', this)">
+        <div class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        </div>
+        <span>Avis</span>
+    </div>
+    <div class="nav-item" onclick="showPage('page-infos', this)">
+        <div class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        </div>
+        <span>Infos</span>
+    </div>
+</nav>
 
-function closeProduct() {
-    document.getElementById('product-detail-page').classList.remove('active');
-    document.getElementById('detail-video').pause();
-}
-
-// GESTION DU PANIER
-function addToCartDetailed(poids, prix) {
-    const itemName = `${currentProduct.name} (${poids})`;
-    cart.push({ name: itemName, price: prix });
-    
-    window.Telegram?.WebApp?.HapticFeedback.notificationOccurred('success');
-    
-    updateCartUI();
-    closeProduct();
-}
-
-function updateCartUI() {
-    const list = document.getElementById('cart-items-list');
-    const step1 = document.getElementById('step-1-cart');
-    
-    if (cart.length === 0) {
-        list.innerHTML = '<div style="text-align:center; padding:50px; opacity:0.5;">Panier vide 🐥</div>';
-        return;
-    }
-
-    list.innerHTML = ''; 
-    cart.forEach((item, index) => {
-        list.innerHTML += `
-            <div style="background:rgba(255,255,255,0.05); margin-bottom:10px; padding:15px; border-radius:15px; display:flex; justify-content:space-between; align-items:center;">
-                <div style="text-align: left;"><b>${item.name}</b><br><small>${item.price}€</small></div>
-                <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff453a; font-weight:bold;">Supprimer</button>
-            </div>`;
-    });
-}
-
-function removeItem(index) {
-    cart.splice(index, 1);
-    updateCartUI();
-}
-
-// TUNNEL DE COMMANDE (ÉTAPES)
-function goToStep2() {
-    if (cart.length === 0) {
-        window.Telegram?.WebApp?.showAlert("Ton panier est vide !");
-        return;
-    }
-    document.getElementById('step-1-cart').style.display = 'none';
-    document.getElementById('step-2-delivery').style.display = 'block';
-}
-
-function goToStep1() {
-    document.getElementById('step-1-cart').style.display = 'block';
-    document.getElementById('step-2-delivery').style.display = 'none';
-}
-
-function toggleDeliveryFields() {
-    const mode = document.querySelector('input[name="delivery-mode"]:checked').value;
-    document.getElementById('meetup-fields').style.display = (mode === 'meetup') ? 'block' : 'none';
-    document.getElementById('livraison-fields').style.display = (mode === 'livraison') ? 'block' : 'none';
-}
-
-// ENVOI FINAL AU BOT
-function finaliserCommande() {
-    const mode = document.querySelector('input[name="delivery-mode"]:checked').value;
-    let detailLivraison = "";
-
-    if (mode === 'meetup') {
-        detailLivraison = "📍 Meet-up : " + document.getElementById('meetup-location').value;
-    } else {
-        const addr = document.getElementById('delivery-address').value;
-        if (!addr || addr.length < 5) {
-            window.Telegram?.WebApp?.showAlert("Merci d'entrer une adresse de livraison valide.");
-            return;
-        }
-        detailLivraison = "🚚 Livraison : " + addr;
-    }
-
-    let total = 0;
-    let recap = "";
-    cart.forEach(item => {
-        recap += `- ${item.name} : ${item.price}€\n`;
-        total += item.price;
-    });
-
-    const commandeData = {
-        recapitulatif: recap,
-        total: total + "€",
-        livraison: detailLivraison,
-        date: new Date().toLocaleString('fr-FR')
-    };
-
-    window.Telegram.WebApp.showConfirm(`Confirmer la commande de ${total}€ ?`, (isConfirmed) => {
-        if (isConfirmed) {
-            window.Telegram.WebApp.sendData(JSON.stringify(commandeData));
-        }
-    });
-}
-
-// FILTRES ET TABS
-function filterProducts() {
-    const farmValue = document.getElementById('farm-filter').value;
-    const catValue = document.getElementById('category-filter').value;
-    const products = document.querySelectorAll('.product-card');
-
-    products.forEach(product => {
-        const farm = product.getAttribute('data-farm');
-        const category = product.getAttribute('data-category');
-        const farmMatch = (farmValue === 'all' || farm === farmValue);
-        const catMatch = (catValue === 'all' || category === catValue);
-
-        product.style.display = (farmMatch && catMatch) ? "block" : "none";
-    });
-}
-
-function switchTab(tabName) {
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-
-    if (tabName === 'panier') {
-        document.getElementById('btn-tab-panier').classList.add('active');
-        document.getElementById('content-panier').classList.add('active');
-    } else {
-        document.getElementById('btn-tab-commandes').classList.add('active');
-        document.getElementById('content-commandes').classList.add('active');
-    }
-}
+    <script src="script.js"></script>
+    <script>
+        const tele = window.Telegram.WebApp;
+        tele.expand();
+        tele.ready();
+    </script>
+</body>
+</html>
