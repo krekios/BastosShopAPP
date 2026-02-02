@@ -43,11 +43,17 @@
     </div>
 
     <div id="content-panier" class="tab-content active">
+    <div id="cart-items-list">
         <div class="empty-state">
             <div class="duck-icon">🐥</div>
             <p>Votre panier est vide</p>
         </div>
     </div>
+    <div id="cart-footer" style="display:none; padding: 20px;">
+        <hr border="1" style="opacity:0.1">
+        <button class="tab-btn active" style="width:100%" onclick="validerCommande()">Valider la commande</button>
+    </div>
+</div>
 
     <div id="content-commandes" class="tab-content">
         <div class="empty-state">
