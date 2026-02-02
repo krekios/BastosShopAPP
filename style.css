@@ -127,3 +127,25 @@ body {
     font-size: 16px;
     color: var(--text-dim);
 }
+.add-to-cart {
+    width: 100%;
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card-bg);
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+}
