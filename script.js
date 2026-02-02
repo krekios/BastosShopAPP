@@ -147,3 +147,41 @@ function validerCommande() {
     // Pour l'instant on affiche, mais on pourra envoyer au bot après
     alert(message);
 }
+function openProduct(name, farm, tag, mediaUrl, desc, isVideo = false) {
+    currentProduct = { name, farm };
+    
+    document.getElementById('detail-title').innerText = name;
+    document.getElementById('detail-farm').innerText = farm;
+    document.getElementById('detail-tag').innerText = tag;
+    document.getElementById('detail-desc').innerText = desc;
+
+    const vNode = document.getElementById('detail-video');
+    const iNode = document.getElementById('detail-img');
+
+    if(isVideo) {
+        iNode.style.display = "none";
+        vNode.style.display = "block";
+        vNode.src = mediaUrl; 
+        vNode.load(); 
+        vNode.play();
+    } else {
+        vNode.style.display = "none";
+        iNode.style.display = "block";
+        iNode.src = mediaUrl;
+    }
+
+    // Génération des boutons selon ta capture
+    const grid = document.getElementById('price-grid-dynamic');
+    const tarifs = [
+        {p: '5g', v: 160}, {p: '10g', v: 310}, 
+        {p: '20g', v: 600}, {p: '30g', v: 840},
+        {p: '50g', v: 1100}, {p: '100g', v: 2100}
+    ];
+
+    grid.innerHTML = "";
+    tarifs.forEach(t => {
+        grid.innerHTML += `<button onclick="addToCartDetailed('${t.p}', ${t.v})">${t.v}€ ${t.p}</button>`;
+    });
+
+    document.getElementById('product-detail-page').classList.add('active');
+}
