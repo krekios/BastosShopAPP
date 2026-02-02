@@ -36,8 +36,8 @@ function openProduct(name, farm, tag, mediaUrl, desc, isVideo = false) {
 
     const grid = document.getElementById('price-grid-dynamic');
     const tarifs = [
-        {p: '5g', v: 160}, {p: '10g', v: 310}, 
-        {p: '20g', v: 600}, {p: '30g', v: 840}
+        {p: '2g', v: 30}, {p: '5g', v: 60}, 
+        {p: '10g', v: 110}, {p: '25g', v: 220}
     ];
 
     grid.innerHTML = "";
