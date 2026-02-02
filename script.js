@@ -10,6 +10,7 @@ function showPage(pageId, element) {
     document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
     element.classList.add('active');
     
+    // Vibration légère pour Telegram
     if (window.Telegram?.WebApp) {
         window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
     }
@@ -33,17 +34,20 @@ function switchTab(tabName) {
     window.Telegram?.WebApp?.HapticFeedback.selectionChanged();
 }
 
-// 3. LOGIQUE DU PANIER (Avec calcul du total)
+// 3. LOGIQUE DU PANIER
 function addToCart(name, price) {
     cart.push({ name: name, price: price });
     updateCartUI();
-    window.Telegram?.WebApp?.HapticFeedback.notificationOccurred('success');
+    
+    if (window.Telegram?.WebApp) {
+        window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+    }
 }
 
 function updateCartUI() {
     const list = document.getElementById('cart-items-list');
     const footer = document.getElementById('cart-footer');
-    let total = 0; // Ajout du calcul du total
+    let total = 0;
     
     if (cart.length === 0) {
         list.innerHTML = '<div class="empty-state"><div class="duck-icon">🐥</div><p>Votre panier est vide</p></div>';
@@ -67,7 +71,7 @@ function updateCartUI() {
         `;
     });
 
-    // On met à jour le texte du bouton avec le total
+    // Mise à jour du bouton avec le total cumulé
     footer.innerHTML = `<button class="tab-btn active" style="width:100%" onclick="validerCommande()">Valider la commande (${total}€)</button>`;
 }
 
@@ -76,7 +80,7 @@ function removeItem(index) {
     updateCartUI();
 }
 
-// 4. OUVERTURE PRODUIT (Optimisé pour la vidéo)
+// 4. OUVERTURE PRODUIT (Version Corrigée et Unique)
 function openProduct(name, farm, tag, mediaUrl, desc, isVideo = false) {
     currentProduct = { name, farm };
     
@@ -91,11 +95,9 @@ function openProduct(name, farm, tag, mediaUrl, desc, isVideo = false) {
     if(isVideo) {
         iNode.style.display = "none";
         vNode.style.display = "block";
-        
-        // On change la source directement sur l'élément vidéo
         vNode.src = mediaUrl; 
-        vNode.load(); // Indispensable pour rafraîchir le lecteur
-        vNode.play().catch(e => console.log("Lecture auto bloquée"));
+        vNode.load(); // Recharge le média pour éviter l'écran noir
+        vNode.play().catch(e => console.log("Lecture auto bloquée : ", e));
     } else {
         vNode.style.display = "none";
         vNode.pause();
@@ -103,74 +105,7 @@ function openProduct(name, farm, tag, mediaUrl, desc, isVideo = false) {
         iNode.src = mediaUrl;
     }
 
-    // Génération des boutons compacts
-    const grid = document.getElementById('price-grid-dynamic');
-    const tarifs = [
-        {p: '5g', v: 160}, {p: '10g', v: 310}, {p: '20g', v: 600},
-        {p: '30g', v: 840}, {p: '50g', v: 1100}, {p: '100g', v: 2100}
-    ];
-
-    grid.innerHTML = "";
-    tarifs.forEach(t => {
-        // Formatage "160€ 5g" sur une seule ligne comme la capture
-        grid.innerHTML += `<button onclick="addToCartDetailed('${t.p}', ${t.v})">${t.v}€ ${t.p}</button>`;
-    });
-
-    document.getElementById('product-detail-page').classList.add('active');
-}
-
-function closeProduct() {
-    document.getElementById('product-detail-page').classList.remove('active');
-    document.getElementById('detail-video').pause(); // On coupe le son/vidéo en fermant
-}
-
-function addToCartDetailed(poids, prix) {
-    const productName = `${currentProduct.name} (${poids})`;
-    addToCart(productName, prix);
-    closeProduct();
-    
-    if (window.Telegram?.WebApp) {
-        window.Telegram.WebApp.showAlert(`Ajouté : ${productName}`);
-    }
-}
-
-function validerCommande() {
-    if(cart.length === 0) return;
-    let message = "Salut ! Je souhaite commander :\n\n";
-    let total = 0;
-    cart.forEach(item => {
-        message += `• ${item.name} - ${item.price}€\n`;
-        total += item.price;
-    });
-    message += `\nTotal : ${total}€`;
-    
-    // Pour l'instant on affiche, mais on pourra envoyer au bot après
-    alert(message);
-}
-function openProduct(name, farm, tag, mediaUrl, desc, isVideo = false) {
-    currentProduct = { name, farm };
-    
-    document.getElementById('detail-title').innerText = name;
-    document.getElementById('detail-farm').innerText = farm;
-    document.getElementById('detail-tag').innerText = tag;
-    document.getElementById('detail-desc').innerText = desc;
-
-    const vNode = document.getElementById('detail-video');
-    const iNode = document.getElementById('detail-img');
-
-    if(isVideo) {
-        iNode.style.display = "none";
-        vNode.style.display = "block";
-        vNode.src = mediaUrl; 
-        vNode.load(); 
-        vNode.play();
-    } else {
-        vNode.style.display = "none";
-        iNode.style.display = "block";
-        iNode.src = mediaUrl;
-    }
-
-    // Génération des boutons selon ta capture
+    // Génération dynamique des boutons de prix (Grille compacte)
     const grid = document.getElementById('price-grid-dynamic');
     const tarifs = [
         {p: '5g', v: 160}, {p: '10g', v: 310}, 
@@ -184,4 +119,46 @@ function openProduct(name, farm, tag, mediaUrl, desc, isVideo = false) {
     });
 
     document.getElementById('product-detail-page').classList.add('active');
+}
+
+function closeProduct() {
+    document.getElementById('product-detail-page').classList.remove('active');
+    const vNode = document.getElementById('detail-video');
+    vNode.pause(); 
+    vNode.src = ""; // Libère la mémoire
+}
+
+function addToCartDetailed(poids, prix) {
+    const productName = `${currentProduct.name} (${poids})`;
+    addToCart(productName, prix);
+    
+    if (window.Telegram?.WebApp) {
+        window.Telegram.WebApp.showAlert(`Ajouté : ${productName}`);
+    }
+    // Optionnel : décommente la ligne dessous si tu veux fermer la fiche après l'ajout
+    // closeProduct(); 
+}
+
+// 5. VALIDATION DE COMMANDE
+function validerCommande() {
+    if(cart.length === 0) return;
+    
+    let total = 0;
+    let message = "Salut ! Je souhaite passer commande :\n\n";
+    
+    cart.forEach(item => {
+        message += `• ${item.name} - ${item.price}€\n`;
+        total += item.price;
+    });
+    
+    message += `\nTOTAL : ${total}€`;
+
+    // Affiche le récapitulatif (plus tard on l'enverra au bot)
+    if (window.Telegram?.WebApp) {
+        window.Telegram.WebApp.showConfirm(message, (ok) => {
+            if(ok) window.Telegram.WebApp.showAlert("Commande confirmée !");
+        });
+    } else {
+        alert(message);
+    }
 }
