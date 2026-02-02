@@ -47,3 +47,50 @@ function switchTab(tabName) {
         window.Telegram.WebApp.HapticFeedback.selectionChanged();
     }
 }
+let cart = [];
+
+function addToCart(name, price) {
+    cart.push({ name: name, price: price });
+    updateCartUI();
+    
+    // Notification Telegram
+    if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+    }
+}
+
+function updateCartUI() {
+    const list = document.getElementById('cart-items-list');
+    const footer = document.getElementById('cart-footer');
+    
+    if (cart.length === 0) {
+        list.innerHTML = '<div class="empty-state"><div class="duck-icon">🐥</div><p>Votre panier est vide</p></div>';
+        footer.style.display = 'none';
+        return;
+    }
+
+    footer.style.display = 'block';
+    list.innerHTML = ''; // On vide pour reconstruire
+    
+    cart.forEach((item, index) => {
+        list.innerHTML += `
+            <div class="cart-item">
+                <span>${item.name}</span>
+                <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff453a;">Supprimer</button>
+            </div>
+        `;
+    });
+}
+
+function removeItem(index) {
+    cart.splice(index, 1);
+    updateCartUI();
+}
+
+function validerCommande() {
+    let message = "Nouvelle commande :\n";
+    cart.forEach(item => message += "- " + item.name + "\n");
+    
+    alert("Commande envoyée ! \n" + message);
+    // Ici on pourra plus tard envoyer un message direct au bot
+}
