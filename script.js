@@ -94,3 +94,33 @@ function validerCommande() {
     alert("Commande envoyée ! \n" + message);
     // Ici on pourra plus tard envoyer un message direct au bot
 }
+let currentProduct = {}; // Pour stocker le produit ouvert
+
+function openProduct(name, farm, tag, img, desc) {
+    currentProduct = { name, farm };
+    
+    document.getElementById('detail-title').innerText = name;
+    document.getElementById('detail-farm').innerText = farm;
+    document.getElementById('detail-tag').innerText = tag;
+    document.getElementById('detail-img').src = img;
+    document.getElementById('detail-desc').innerText = desc;
+    
+    document.getElementById('product-detail-page').classList.add('active');
+}
+
+function closeProduct() {
+    document.getElementById('product-detail-page').classList.remove('active');
+}
+
+function addToCartDetailed(poids, prix) {
+    const productName = `${currentProduct.name} (${poids})`;
+    addToCart(productName, prix); // On réutilise ta fonction de panier
+    
+    // Optionnel : fermer la page après l'ajout
+    closeProduct();
+    
+    // Petit message de succès
+    if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.showAlert(`Ajouté : ${productName} au panier !`);
+    }
+}
