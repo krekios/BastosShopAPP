@@ -1,10 +1,15 @@
-const { Telegraf } = require('telegraf');
-const config = require('./config.js');
-
+const { Markup } = require('telegraf');
 const bot = new Telegraf(config.TOKEN);
 const MON_ID_PERSONNEL = config.MY_ID;
-
-bot.start((ctx) => ctx.reply('Bastos Bot est vivant ! 🚀'));
+// Quand quelqu'un tape /start ou lance le bot
+bot.start((ctx) => {
+    return ctx.reply(
+        `Bienvenue sur Bastos Shop ! 🌴\n\nClique sur le bouton ci-dessous pour ouvrir la boutique et passer commande.`,
+        Markup.keyboard([
+            [Markup.button.webApp('🚀 Ouvrir la Boutique', 'https://ton-lien-github.io/')]
+        ]).resize() // Le bouton s'adapte à la taille de l'écran
+    );
+});
 
 bot.on('web_app_data', (ctx) => {
     try {
